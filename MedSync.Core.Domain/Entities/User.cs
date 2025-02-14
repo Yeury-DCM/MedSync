@@ -1,4 +1,5 @@
 ﻿using MedSync.Core.Domain.Common;
+using MedSync.Core.Domain.Enums;
 
 namespace MedSync.Core.Domain.Entities
 {
@@ -8,12 +9,12 @@ namespace MedSync.Core.Domain.Entities
         public  string Email { get; set; }
         public string Password { get; set; }
 
-        //FKs
-       // public int RoleId { get; set; }
-        public int OfficeId { get; set; }
+        public Role Role { get; set; }
+        public int DoctorOfficeId { get; set; }
 
         //Navegation Properties
 
+        public DoctorOffice DoctorOffice { get; set; }
 
     }
 }

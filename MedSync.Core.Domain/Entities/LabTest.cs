@@ -6,5 +6,10 @@ namespace MedSync.Core.Domain.Entities
     {
         public string Name { get; set; }
         public int AppoimentId { get; set; } //FK
+        public int DoctorOfficeId { get; set; } //FK
+
+        //Navegation Property
+        public LabResult LabResult { get; set; }
+        public DoctorOffice DoctorOffice { get; set; }
     }
 }
