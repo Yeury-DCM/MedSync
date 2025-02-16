@@ -6,10 +6,12 @@ namespace MedSync.Core.Domain.Entities
     {
         public string Email { get; set; }
         public string Phone { get; set; }
-        public int DoctorOfficeId { get; set; } //Fk
 
-        //Navegation Properti
+        public int DoctorOfficeId {  get; set; }
+
+        //Navegation Property
         public DoctorOffice DoctorOffice { get; set; }
+        public ICollection<Appoiment> Appoiments{ get; set; }
 
     }
 }

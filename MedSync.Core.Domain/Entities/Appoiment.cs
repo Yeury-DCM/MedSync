@@ -6,10 +6,10 @@ namespace MedSync.Core.Domain.Entities
 {
     public class Appoiment : BaseEntity
     {
+        public string Cause { get; set; }
+        public Status Status { get; set; }
         public int PatientId { get; set; } //Fk
         public int DoctorId { get; set; } //Fk
-        public string Cause { get; set; }
-        public Status Status { get; set; } 
         public int DoctorOfficeId { get; set; } //FK
 
         public DateTime Date { get; set; }

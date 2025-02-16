@@ -8,12 +8,12 @@ namespace MedSync.Core.Domain.Entities
 
         //Navegation Properties
 
-        ICollection<Appoiment> Appoiments { get; set; }
-        ICollection<Doctor> Doctors { get; set; }
-        ICollection<LabResult> LabResults { get; set; }
-        ICollection<LabTest> LabTests { get; set; }
-        ICollection<Patient> Patients { get; set; }
-        ICollection<User> Users { get; set; }
+        public ICollection<Appoiment> Appoiments { get; set; }
+        public  ICollection<Doctor> Doctors { get; set; }
+        public ICollection<LabResult> LabResults { get; set; }
+        public ICollection<LabTest> LabTests { get; set; }
+        public ICollection<Patient> Patients { get; set; }
+        public ICollection<User> Users { get; set; }
 
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MedSync.Infraestructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialMigraton : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,7 +47,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         column: x => x.DoctorOfficeId,
                         principalTable: "DoctorOffice",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,7 +74,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         column: x => x.DoctorOfficeId,
                         principalTable: "DoctorOffice",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,10 +108,10 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientId = table.Column<int>(type: "int", nullable: false),
-                    DoctorId = table.Column<int>(type: "int", nullable: false),
                     Cause = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
                     DoctorOfficeId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Time = table.Column<TimeSpan>(type: "time", nullable: false)
@@ -124,19 +124,19 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         column: x => x.DoctorOfficeId,
                         principalTable: "DoctorOffice",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Appoiments_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Appoiments_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,7 +146,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppoimentId = table.Column<int>(type: "int", nullable: false),
+                    AppoimentId = table.Column<int>(type: "int", nullable: true),
                     DoctorOfficeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -157,41 +157,39 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         column: x => x.AppoimentId,
                         principalTable: "Appoiments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_LabTests_DoctorOffice_DoctorOfficeId",
                         column: x => x.DoctorOfficeId,
                         principalTable: "DoctorOffice",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "LabResults",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PatientId = table.Column<int>(type: "int", nullable: false),
-                    LabTestId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LabTestId1 = table.Column<int>(type: "int", nullable: true)
+                    DoctorOfficeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LabResults", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LabResults_LabTests_LabTestId",
-                        column: x => x.LabTestId,
+                        name: "FK_LabResults_DoctorOffice_DoctorOfficeId",
+                        column: x => x.DoctorOfficeId,
+                        principalTable: "DoctorOffice",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LabResults_LabTests_Id",
+                        column: x => x.Id,
                         principalTable: "LabTests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LabResults_LabTests_LabTestId1",
-                        column: x => x.LabTestId1,
-                        principalTable: "LabTests",
-                        principalColumn: "Id");
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_LabResults_Patients_PatientId",
                         column: x => x.PatientId,
@@ -221,17 +219,9 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                 column: "DoctorOfficeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LabResults_LabTestId",
+                name: "IX_LabResults_DoctorOfficeId",
                 table: "LabResults",
-                column: "LabTestId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LabResults_LabTestId1",
-                table: "LabResults",
-                column: "LabTestId1",
-                unique: true,
-                filter: "[LabTestId1] IS NOT NULL");
+                column: "DoctorOfficeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LabResults_PatientId",

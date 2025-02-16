@@ -5,11 +5,14 @@ namespace MedSync.Core.Domain.Entities
     public class LabTest : BaseEntity
     {
         public string Name { get; set; }
-        public int AppoimentId { get; set; } //FK
+        public int? AppoimentId { get; set; } //Fl
+
         public int DoctorOfficeId { get; set; } //FK
 
         //Navegation Property
-        public LabResult LabResult { get; set; }
+        public LabResult? LabResult { get; set; }
         public DoctorOffice DoctorOffice { get; set; }
+
+        public Appoiment? Appoiment { get; set; }
     }
 }
