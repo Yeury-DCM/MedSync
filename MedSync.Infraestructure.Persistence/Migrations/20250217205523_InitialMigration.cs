@@ -6,22 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MedSync.Infraestructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigraton : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DoctorOffice",
+                name: "DoctorOffices",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorOffice", x => x.Id);
+                    table.PrimaryKey("PK_DoctorOffices", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,6 +38,11 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DoctorOfficeId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     IdentificationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -43,9 +53,9 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Doctors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Doctors_DoctorOffice_DoctorOfficeId",
+                        name: "FK_Doctors_DoctorOffices_DoctorOfficeId",
                         column: x => x.DoctorOfficeId,
-                        principalTable: "DoctorOffice",
+                        principalTable: "DoctorOffices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -60,6 +70,11 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     IsSmoker = table.Column<bool>(type: "bit", nullable: false),
                     HasAlergies = table.Column<bool>(type: "bit", nullable: false),
                     DoctorOfficeId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     IdentificationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -70,9 +85,9 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Patients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Patients_DoctorOffice_DoctorOfficeId",
+                        name: "FK_Patients_DoctorOffices_DoctorOfficeId",
                         column: x => x.DoctorOfficeId,
-                        principalTable: "DoctorOffice",
+                        principalTable: "DoctorOffices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -88,6 +103,11 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     DoctorOfficeId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false)
                 },
@@ -95,9 +115,9 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_DoctorOffice_DoctorOfficeId",
+                        name: "FK_Users_DoctorOffices_DoctorOfficeId",
                         column: x => x.DoctorOfficeId,
-                        principalTable: "DoctorOffice",
+                        principalTable: "DoctorOffices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -114,15 +134,20 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     DoctorOfficeId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Time = table.Column<TimeSpan>(type: "time", nullable: false)
+                    Time = table.Column<TimeSpan>(type: "time", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appoiments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Appoiments_DoctorOffice_DoctorOfficeId",
+                        name: "FK_Appoiments_DoctorOffices_DoctorOfficeId",
                         column: x => x.DoctorOfficeId,
-                        principalTable: "DoctorOffice",
+                        principalTable: "DoctorOffices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -147,7 +172,12 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppoimentId = table.Column<int>(type: "int", nullable: true),
-                    DoctorOfficeId = table.Column<int>(type: "int", nullable: false)
+                    DoctorOfficeId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -159,9 +189,9 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_LabTests_DoctorOffice_DoctorOfficeId",
+                        name: "FK_LabTests_DoctorOffices_DoctorOfficeId",
                         column: x => x.DoctorOfficeId,
-                        principalTable: "DoctorOffice",
+                        principalTable: "DoctorOffices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -170,23 +200,30 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                 name: "LabResults",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PatientId = table.Column<int>(type: "int", nullable: false),
+                    LabTestId = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorOfficeId = table.Column<int>(type: "int", nullable: true)
+                    DoctorOfficeId = table.Column<int>(type: "int", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LabResults", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LabResults_DoctorOffice_DoctorOfficeId",
+                        name: "FK_LabResults_DoctorOffices_DoctorOfficeId",
                         column: x => x.DoctorOfficeId,
-                        principalTable: "DoctorOffice",
+                        principalTable: "DoctorOffices",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_LabResults_LabTests_Id",
-                        column: x => x.Id,
+                        name: "FK_LabResults_LabTests_LabTestId",
+                        column: x => x.LabTestId,
                         principalTable: "LabTests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -222,6 +259,12 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                 name: "IX_LabResults_DoctorOfficeId",
                 table: "LabResults",
                 column: "DoctorOfficeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LabResults_LabTestId",
+                table: "LabResults",
+                column: "LabTestId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_LabResults_PatientId",
@@ -277,7 +320,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                 name: "Patients");
 
             migrationBuilder.DropTable(
-                name: "DoctorOffice");
+                name: "DoctorOffices");
         }
     }
 }

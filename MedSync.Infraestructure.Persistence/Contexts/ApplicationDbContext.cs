@@ -11,6 +11,7 @@ namespace MedSync.Infraestructure.Persistence.Contexts
         #region Entities
         public DbSet<Appoiment> Appoiments { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<DoctorOffice> DoctorOffices { get; set; }
         public DbSet<LabResult> LabResults { get; set; }
         public DbSet<LabTest> LabTests { get; set; }
         public DbSet<Patient> Patients { get; set; }
@@ -20,6 +21,7 @@ namespace MedSync.Infraestructure.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             #region Primary Keys
             modelBuilder.Entity<Appoiment>().HasKey(ap => ap.Id);
             modelBuilder.Entity<Doctor>().HasKey(doc => doc.Id);
@@ -31,16 +33,36 @@ namespace MedSync.Infraestructure.Persistence.Contexts
 
             #endregion
 
+            #region Query Filter
+            modelBuilder.Entity<Appoiment>().HasQueryFilter(a => a.IsActive);
+            modelBuilder.Entity<Doctor>().HasQueryFilter(doc => doc.IsActive);
+            modelBuilder.Entity<DoctorOffice>().HasQueryFilter(dof => dof.IsActive);
+            modelBuilder.Entity<LabResult>().HasQueryFilter(lr => lr.IsActive);
+            modelBuilder.Entity<LabTest>().HasQueryFilter(lt => lt.IsActive);
+            modelBuilder.Entity<Patient>().HasQueryFilter(p => p.IsActive);
+            modelBuilder.Entity<User>().HasQueryFilter(u => u.IsActive);
+            #endregion
+
             #region Properties
 
             #region Appoiment
             modelBuilder.Entity<Appoiment>().Property(ap => ap.DoctorId).IsRequired();
-            //  modelBuilder.Entity<Appoiment>().Property(ap => ap.PatientId).IsRequired();
+            modelBuilder.Entity<Appoiment>().Property(ap => ap.PatientId).IsRequired();
             modelBuilder.Entity<Appoiment>().Property(ap => ap.Cause).IsRequired().HasMaxLength(255);
-            //  modelBuilder.Entity<Appoiment>().Property(ap => ap.DoctorOfficeId).IsRequired();
+            modelBuilder.Entity<Appoiment>().Property(ap => ap.DoctorOfficeId).IsRequired();
             modelBuilder.Entity<Appoiment>().Property(ap => ap.Time).IsRequired();
             modelBuilder.Entity<Appoiment>().Property(ap => ap.Date).IsRequired();
             modelBuilder.Entity<Appoiment>().Property(ap => ap.Status).IsRequired();
+            modelBuilder.Entity<Appoiment>().Property(ap => ap.IsActive).IsRequired();
+            modelBuilder.Entity<Appoiment>().Property(ap => ap.CreatedBy).IsRequired();
+            modelBuilder.Entity<Appoiment>().Property(ap => ap.CreatedOn).IsRequired();
+            modelBuilder.Entity<Appoiment>().Property(ap => ap.LastModified).IsRequired(false);
+            modelBuilder.Entity<Appoiment>().Property(ap => ap.LastModifiedBy).IsRequired(false);
+
+
+
+
+
             #endregion
 
             #region Doctor
@@ -50,19 +72,34 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<Doctor>().Property(d => d.Phone).IsRequired();
             modelBuilder.Entity<Doctor>().Property(d => d.IdentificationNumber).IsRequired();
             modelBuilder.Entity<Doctor>().Property(d => d.ImagePath).IsRequired();
-            //modelBuilder.Entity<Doctor>().Property(d => d.DoctorOfficeId).IsRequired();
+            modelBuilder.Entity<Doctor>().Property(d => d.DoctorOfficeId).IsRequired();
+            modelBuilder.Entity<Doctor>().Property(d => d.IsActive).IsRequired();
+            modelBuilder.Entity<Doctor>().Property(d => d.CreatedBy).IsRequired();
+            modelBuilder.Entity<Doctor>().Property(d => d.CreatedOn).IsRequired();
+            modelBuilder.Entity<Doctor>().Property(d => d.LastModified).IsRequired(false);
+            modelBuilder.Entity<Doctor>().Property(d => d.LastModifiedBy).IsRequired(false);
             #endregion
 
             #region LabTest
             modelBuilder.Entity<LabTest>().Property(lt => lt.Name).IsRequired();
-            //  modelBuilder.Entity<LabTest>().Property(lt => lt.DoctorOfficeId).IsRequired();
-            //   modelBuilder.Entity<LabTest>().Property(lt => lt.DoctorOfficeId).IsRequired();
+            modelBuilder.Entity<LabTest>().Property(lt => lt.DoctorOfficeId).IsRequired();
+            //modelBuilder.Entity<LabTest>().Property(lt => lt.LabResult).IsRequired();
+            modelBuilder.Entity<LabTest>().Property(lt => lt.IsActive).IsRequired();
+            modelBuilder.Entity<LabTest>().Property(lt => lt.CreatedBy).IsRequired();
+            modelBuilder.Entity<LabTest>().Property(lt => lt.CreatedOn).IsRequired();
+            modelBuilder.Entity<LabTest>().Property(lt => lt.LastModified).IsRequired(false);
+            modelBuilder.Entity<LabTest>().Property(lt => lt.LastModifiedBy).IsRequired(false);
             #endregion
 
             #region LabResult
-            // modelBuilder.Entity<LabResult>().Property(lr => lr.PatientId).IsRequired();
+            modelBuilder.Entity<LabResult>().Property(lr => lr.PatientId).IsRequired();
             modelBuilder.Entity<LabResult>().Property(lr => lr.Description).IsRequired();
-            //  modelBuilder.Entity<LabResult>().Property(lr => lr.Status).IsRequired();
+            modelBuilder.Entity<LabResult>().Property(lr => lr.Status).IsRequired();
+            modelBuilder.Entity<LabResult>().Property(lr => lr.IsActive).IsRequired();
+            modelBuilder.Entity<LabResult>().Property(lr => lr.CreatedBy).IsRequired();
+            modelBuilder.Entity<LabResult>().Property(lr => lr.CreatedOn).IsRequired();
+            modelBuilder.Entity<LabResult>().Property(lr => lr.LastModified).IsRequired(false);
+            modelBuilder.Entity<LabResult>().Property(lr => lr.LastModifiedBy).IsRequired(false);
             #endregion
 
             #region Patient
@@ -74,7 +111,11 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<Patient>().Property(p => p.IsSmoker).IsRequired();
             modelBuilder.Entity<Patient>().Property(p => p.HasAlergies).IsRequired();
             modelBuilder.Entity<Patient>().Property(p => p.ImagePath).IsRequired();
-            // modelBuilder.Entity<Patient>().Property(p => p.DoctorOfficeId).IsRequired();
+            modelBuilder.Entity<Patient>().Property(p => p.DoctorOfficeId).IsRequired();
+            modelBuilder.Entity<Patient>().Property(p => p.CreatedBy).IsRequired();
+            modelBuilder.Entity<Patient>().Property(p => p.CreatedOn).IsRequired();
+            modelBuilder.Entity<Patient>().Property(p => p.LastModified).IsRequired(false);
+            modelBuilder.Entity<Patient>().Property(p => p.LastModifiedBy).IsRequired(false);
             #endregion
 
             #region User
@@ -82,10 +123,14 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<User>().Property(u => u.Name).HasMaxLength(40).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.LastName).HasMaxLength(40).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
-            //          modelBuilder.Entity<User>().Property(u => u.DoctorOfficeId).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.DoctorOfficeId).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Password).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Role).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.CreatedBy).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.CreatedOn).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.LastModified).IsRequired(false);
+            modelBuilder.Entity<User>().Property(u => u.LastModifiedBy).IsRequired(false);
             #endregion
 
             #endregion
@@ -100,14 +145,6 @@ namespace MedSync.Infraestructure.Persistence.Contexts
                 .HasForeignKey(a => a.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
-
-            //modelBuilder.Entity<Doctor>()   
-            //    .HasMany<Appoiment>()
-            //    .WithOne(ap =>  ap.Doctor)
-            //    .HasForeignKey(ap => ap.DoctorId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
             //One Patient Has Many Appoiments
             modelBuilder.Entity<Patient>()
                 .HasMany(pa => pa.Appoiments)
@@ -115,11 +152,10 @@ namespace MedSync.Infraestructure.Persistence.Contexts
                 .HasForeignKey(pa => pa.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //One LabTest has One LabResult
             modelBuilder.Entity<LabResult>()
                 .HasOne(lr => lr.LabTest)
                 .WithOne(lt => lt.LabResult)
-                .HasForeignKey<LabResult>(lr => lr.Id)
+                .HasForeignKey<LabResult>(lr => lr.LabTestId) // Usa LabTestId como clave foránea
                 .OnDelete(DeleteBehavior.Restrict);
 
             //Appoiment to many tests
@@ -132,24 +168,11 @@ namespace MedSync.Infraestructure.Persistence.Contexts
 
 
             #region Relationships with DoctorOffice
-            /////
             modelBuilder.Entity<DoctorOffice>()
                 .HasMany(d => d.Appoiments)
                 .WithOne(ap => ap.DoctorOffice)
                 .HasForeignKey(ap => ap.DoctorOfficeId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-
-            /*
-            modelBuilder.Entity<Appoiment>()
-                .HasOne(ap => ap.DoctorOffice)
-                .WithMany(d => d.Appoiments)
-                .HasForeignKey(ap => ap.DoctorOfficeId)
-                .OnDelete(DeleteBehavior.Restrict);
-            */
-
-
-            //////
 
             modelBuilder.Entity<DoctorOffice>()
                 .HasMany(dof => dof.Doctors)
