@@ -6,7 +6,8 @@ namespace MedSync.Core.Domain.Entities
     {
         public string Description { get; set; }
         public int PatientId { get; set; } //FK
-        public string Status { get; set; } //FK
+        public int LabTestId { get; set; }
+        public string Status { get; set; }
 
         //Navegation properties
         public Patient Patient { get; set; }

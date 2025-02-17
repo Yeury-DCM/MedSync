@@ -12,7 +12,6 @@ namespace MedSync.Core.Domain.Entities
         //Navegation Property
         public LabResult? LabResult { get; set; }
         public DoctorOffice DoctorOffice { get; set; }
-
         public Appoiment? Appoiment { get; set; }
     }
 }
