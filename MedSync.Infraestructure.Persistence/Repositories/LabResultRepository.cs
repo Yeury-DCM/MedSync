@@ -9,7 +9,15 @@ namespace MedSync.Infraestructure.Persistence.Repositories
 {   
     public class LabResultRepository : GenericRepository<LabResult>, ILabResultRepository
     {
-        public LabResultRepository(ApplicationDbContext context, ILogger logger) : base(context, logger) { }
+
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<LabResultRepository> _logger;
+
+        public LabResultRepository(ApplicationDbContext context, ILogger<LabResultRepository> logger) : base(context, logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
         
     }
 }

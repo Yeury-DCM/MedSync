@@ -8,7 +8,15 @@ namespace MedSync.Infraestructure.Persistence.Repositories
 {
     public class LabTestRepository : GenericRepository<LabTest>, ILabTestRepository
     {
-        public LabTestRepository(ApplicationDbContext context, ILogger logger) : base(context, logger) { }
+
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<LabTestRepository> _logger;
+
+        public LabTestRepository(ApplicationDbContext context, ILogger<LabTestRepository> logger) : base(context, logger) 
+        {
+            _context = context;
+            _logger = logger;
+        }
         
     }
 }

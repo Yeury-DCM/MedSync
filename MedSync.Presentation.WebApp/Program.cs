@@ -1,5 +1,10 @@
+using MedSync.Core.Application.Interfaces.Repositories;
+using MedSync.Infraestructure.Persistence;
 using MedSync.Infraestructure.Persistence.Contexts;
+using MedSync.Infraestructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.ComponentModel.Design;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//EF
-var connectionStrings = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionStrings));
+
+builder.Services.AddPersistenceLayer(builder.Configuration);
 
 var app = builder.Build();
 
@@ -27,13 +31,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
 

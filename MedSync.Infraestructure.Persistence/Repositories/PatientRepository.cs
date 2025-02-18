@@ -8,7 +8,15 @@ namespace MedSync.Infraestructure.Persistence.Repositories
 {
     public class PatientRepository : GenericRepository<Patient>, IPatientRepository
     {
-        public PatientRepository(ApplicationDbContext context, ILogger logger) : base(context, logger) { }
+
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<PatientRepository> _logger;
+
+        public PatientRepository(ApplicationDbContext context, ILogger<PatientRepository> logger) : base(context, logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
         
         
     }

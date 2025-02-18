@@ -76,7 +76,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appoiments");
+                    b.ToTable("Appoiments", (string)null);
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.Doctor", b =>
@@ -139,7 +139,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("DoctorOfficeId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.DoctorOffice", b =>
@@ -171,7 +171,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DoctorOffices");
+                    b.ToTable("DoctorOffices", (string)null);
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.LabResult", b =>
@@ -223,7 +223,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("LabResults");
+                    b.ToTable("LabResults", (string)null);
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.LabTest", b =>
@@ -265,7 +265,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("DoctorOfficeId");
 
-                    b.ToTable("LabTests");
+                    b.ToTable("LabTests", (string)null);
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.Patient", b =>
@@ -330,7 +330,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("DoctorOfficeId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.User", b =>
@@ -391,7 +391,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.Appoiment", b =>
