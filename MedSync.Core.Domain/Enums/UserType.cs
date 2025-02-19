@@ -1,7 +1,7 @@
 ﻿
 namespace MedSync.Core.Domain.Enums
 {
-    public enum Role
+    public enum UserType
     {
         Admin,
         Assistant 

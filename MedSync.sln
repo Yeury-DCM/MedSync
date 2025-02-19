@@ -19,12 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedSync.Core.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedSync.Infraestructure.Persistence", "MedSync.Infraestructure.Persistence\MedSync.Infraestructure.Persistence.csproj", "{01D7D910-C1B9-4B80-92D3-04592A531D65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedSync.Presentation.Web", "MedSync.Presentation.WebApp\MedSync.Presentation.Web.csproj", "{0769292A-306E-42DB-96D7-729EC8C5AD78}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A159964-12B4-4803-AA55-B37FBE7F393E}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedSync.Presentation.Web", "MedSync.Presentation.Web\MedSync.Presentation.Web.csproj", "{82D4157B-D5D3-4448-80AE-96268B2A3A9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,10 +44,10 @@ Global
 		{01D7D910-C1B9-4B80-92D3-04592A531D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01D7D910-C1B9-4B80-92D3-04592A531D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01D7D910-C1B9-4B80-92D3-04592A531D65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0769292A-306E-42DB-96D7-729EC8C5AD78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0769292A-306E-42DB-96D7-729EC8C5AD78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0769292A-306E-42DB-96D7-729EC8C5AD78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0769292A-306E-42DB-96D7-729EC8C5AD78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82D4157B-D5D3-4448-80AE-96268B2A3A9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82D4157B-D5D3-4448-80AE-96268B2A3A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82D4157B-D5D3-4448-80AE-96268B2A3A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82D4157B-D5D3-4448-80AE-96268B2A3A9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +60,6 @@ Global
 		{C2CE7E57-654D-4C61-973E-DF906A06C134} = {3EA3163F-FF7F-4482-96F1-FE7E3185C231}
 		{C6F719CA-EE7F-4EB5-9761-E24FAB3EB49A} = {3EA3163F-FF7F-4482-96F1-FE7E3185C231}
 		{01D7D910-C1B9-4B80-92D3-04592A531D65} = {FB71874A-0AAA-473E-B32E-262451A53F62}
-		{0769292A-306E-42DB-96D7-729EC8C5AD78} = {ECC6EC38-7F0C-40AB-A129-D27F356317F2}
+		{82D4157B-D5D3-4448-80AE-96268B2A3A9B} = {ECC6EC38-7F0C-40AB-A129-D27F356317F2}
 	EndGlobalSection
 EndGlobal

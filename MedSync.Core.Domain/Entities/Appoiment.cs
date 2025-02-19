@@ -21,7 +21,5 @@ namespace MedSync.Core.Domain.Entities
         public Patient Patient { get; set; }
         public DoctorOffice DoctorOffice { get; set; } 
 
-
-
     }
 }

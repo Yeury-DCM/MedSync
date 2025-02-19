@@ -7,8 +7,9 @@ namespace MedSync.Core.Domain.Entities
         public string Adress { get; set; }
         public bool IsSmoker { get; set; }
         public bool HasAlergies { get; set; }
-
         public int DoctorOfficeId { get; set; } //FK
+
+        public DateTime BirthDate { get; set; }
 
         //Navegation Property
         public DoctorOffice DoctorOffice { get; set; }

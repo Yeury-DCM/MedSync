@@ -126,7 +126,7 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<User>().Property(u => u.DoctorOfficeId).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Password).IsRequired();
-            modelBuilder.Entity<User>().Property(u => u.Role).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.UserType).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.CreatedBy).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.CreatedOn).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.LastModified).IsRequired(false);
@@ -152,10 +152,11 @@ namespace MedSync.Infraestructure.Persistence.Contexts
                 .HasForeignKey(pa => pa.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // One LabTes has Many results
             modelBuilder.Entity<LabResult>()
                 .HasOne(lr => lr.LabTest)
-                .WithOne(lt => lt.LabResult)
-                .HasForeignKey<LabResult>(lr => lr.LabTestId) // Usa LabTestId como clave foránea
+                .WithMany(lt => lt.LabResults)
+                .HasForeignKey(lr => lr.LabTestId) // Usa LabTestId como clave foránea
                 .OnDelete(DeleteBehavior.Restrict);
 
             //Appoiment to many tests

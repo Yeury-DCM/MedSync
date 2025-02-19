@@ -17,7 +17,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -76,7 +76,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appoiments", (string)null);
+                    b.ToTable("Appoiments");
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.Doctor", b =>
@@ -139,7 +139,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("DoctorOfficeId");
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.DoctorOffice", b =>
@@ -171,7 +171,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DoctorOffices", (string)null);
+                    b.ToTable("DoctorOffices");
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.LabResult", b =>
@@ -210,20 +210,18 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorOfficeId");
 
-                    b.HasIndex("LabTestId")
-                        .IsUnique();
+                    b.HasIndex("LabTestId");
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("LabResults", (string)null);
+                    b.ToTable("LabResults");
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.LabTest", b =>
@@ -265,7 +263,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("DoctorOfficeId");
 
-                    b.ToTable("LabTests", (string)null);
+                    b.ToTable("LabTests");
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.Patient", b =>
@@ -279,6 +277,9 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     b.Property<string>("Adress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
@@ -330,7 +331,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.HasIndex("DoctorOfficeId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.User", b =>
@@ -377,7 +378,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
+                    b.Property<int>("UserType")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
@@ -391,7 +392,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.Appoiment", b =>
@@ -439,8 +440,8 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         .HasForeignKey("DoctorOfficeId");
 
                     b.HasOne("MedSync.Core.Domain.Entities.LabTest", "LabTest")
-                        .WithOne("LabResult")
-                        .HasForeignKey("MedSync.Core.Domain.Entities.LabResult", "LabTestId")
+                        .WithMany("LabResults")
+                        .HasForeignKey("LabTestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -522,7 +523,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.LabTest", b =>
                 {
-                    b.Navigation("LabResult");
+                    b.Navigation("LabResults");
                 });
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.Patient", b =>

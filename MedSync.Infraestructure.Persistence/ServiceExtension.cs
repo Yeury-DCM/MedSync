@@ -31,6 +31,7 @@ namespace MedSync.Infraestructure.Persistence
             #endregion
 
             #region Repositories DI
+            services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddTransient<IAppoimentRepository, AppoimentRepository>();
             services.AddTransient<IDoctorRepository, DoctorRepository>();
             services.AddTransient<IDoctorOfficeRepository, DoctorOfficeRepository>();
