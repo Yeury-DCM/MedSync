@@ -1,5 +1,7 @@
 
 using MedSync.Infraestructure.Persistence;
+using MedSync.Core.Application;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ builder.Services.AddControllersWithViews();
 
 
 builder.Services.AddPersistenceLayer(builder.Configuration);
+builder.Services.AddApplicationLayer();
 
 var app = builder.Build();
 

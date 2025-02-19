@@ -13,7 +13,14 @@ namespace MedSync.Core.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             #region Services
-          //  services.AddTransient<IAppoimentService, AppoimentService>();
+            services.AddTransient<IAppoimentService, AppoimentService>();
+            services.AddTransient<IDoctorOfficeService, DoctorOfficeService>();
+            services.AddTransient<IDoctorService, DoctorService>();
+            services.AddTransient<ILabResultService, LabResultService>();
+            services.AddTransient<ILabTestService, LabTestService>();
+            services.AddTransient<IPatientService, PatientService>();
+            services.AddTransient<IUserService, UserService>();
+
             #endregion
         }
     }
