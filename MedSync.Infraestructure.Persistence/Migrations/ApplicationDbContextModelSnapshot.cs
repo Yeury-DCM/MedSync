@@ -192,7 +192,7 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DoctorOfficeId")
+                    b.Property<int>("DoctorOfficeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -383,13 +383,13 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorOfficeId");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("Username")
                         .IsUnique();
 
                     b.ToTable("Users");
@@ -435,9 +435,11 @@ namespace MedSync.Infraestructure.Persistence.Migrations
 
             modelBuilder.Entity("MedSync.Core.Domain.Entities.LabResult", b =>
                 {
-                    b.HasOne("MedSync.Core.Domain.Entities.DoctorOffice", null)
+                    b.HasOne("MedSync.Core.Domain.Entities.DoctorOffice", "DoctorOffice")
                         .WithMany("LabResults")
-                        .HasForeignKey("DoctorOfficeId");
+                        .HasForeignKey("DoctorOfficeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MedSync.Core.Domain.Entities.LabTest", "LabTest")
                         .WithMany("LabResults")
@@ -450,6 +452,8 @@ namespace MedSync.Infraestructure.Persistence.Migrations
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DoctorOffice");
 
                     b.Navigation("LabTest");
 

@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@using MedSync.Core.Application.Helpers;
+@using MedSync.Core.Application.ViewModels.Users;
+@using MedSync.Core.Domain.Enums;
+@inject IHttpContextAccessor httpContext
+@{
+    UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user")!;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,49 +18,82 @@
 </head>
 <body class="d-flex flex-nowrap">
 
-    <aside class="d-flex flex-column flex-shrink-0 p-3 bg-light border-end" style="width: 280px; min-height: 100vh;">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
-            <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-            <span class="fs-4">Sidebar</span>
-        </a>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link active" aria-current="page">
-                    Home
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
-                    Usuarios
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
-                    Doctores
-                </a>
-            </li>
-
-
-
-        </ul>
-        <hr>
-        <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>mdo</strong>
+    @if (!IsSectionDefined("NoSidebar"))
+    {
+        <aside class="d-flex flex-column flex-shrink-0 p-3 bg-light border-end" style="width: 280px; min-height: 100vh;">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                <span class="fs-4">Sidebar</span>
             </a>
-            <ul class="dropdown-menu text-small shadow">
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link active" aria-current="page">
+                        Home
+                    </a>
+                </li>
+
+                @if(user.UserType == UserType.Administrador)
+                {
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
+                            Usuarios
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
+                            Doctores
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
+                            Pruebas De Laboratorio
+                        </a>
+                    </li>
+                }
+
+                @if(user.UserType == UserType.Asistente)
+                {
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
+                            Pacientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
+                            Citas
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
+                            Resultados de Laboratorio
+                        </a>
+                    </li>
+                }
+              
             </ul>
-        </div>
-    </aside>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>mdo</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow">
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" asp-controller="User" asp-action="LogOut">Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </aside>
+    }
+    else
+    {
+        IgnoreSection("NoSidebar");
+    }
+
+    
 
     <div class="container-fluid">
         <main role="main" class="p-4">

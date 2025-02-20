@@ -5,5 +5,6 @@ namespace MedSync.Core.Application.Interfaces.Services
 {
     public interface IUserService : IGenericService<UserViewModel, SaveUserViewModel, User>
     {
+        Task<UserViewModel> Login(LoginViewModel viewModel);
     }
 }

@@ -172,14 +172,14 @@ namespace MedSync.Core.Application.Mappings
             .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
             .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore());
 
-            CreateMap<Patient, SaveUserViewModel>()
+            CreateMap<User, SaveUserViewModel>()
              .ForMember(dest => dest.ConfirmPassword, otp => otp.Ignore())
+             .ForMember(dest => dest.DoctorOfficeName, otp => otp.Ignore())
              .ReverseMap()
             .ForMember(dest => dest.CreatedBy, otp => otp.Ignore())
             .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
             .ForMember(dest => dest.LastModified, otp => otp.Ignore())
             .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-            .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
             .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore());
             #endregion
 

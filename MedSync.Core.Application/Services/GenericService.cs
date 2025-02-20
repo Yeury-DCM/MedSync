@@ -20,9 +20,12 @@ namespace MedSync.Core.Application.Services
             _mapper = mapper;
         }
 
-        public virtual async Task<bool> Add(SaveViewModel saveViewModel)
+        public virtual async Task<Entity> Add(SaveViewModel saveViewModel)
         {
             Entity entity = _mapper.Map<Entity>(saveViewModel);
+            entity.CreatedOn = DateTime.Now;
+            entity.CreatedBy = 0;
+    
             return await _repository.AddAsync(entity);
         }
 

@@ -6,6 +6,7 @@ namespace MedSync.Core.Application.ViewModels.Users
 {
     public class SaveUserViewModel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "El nombre es requerido")]
         [DataType(DataType.Text)]
         public string Name { get; set; }
@@ -13,6 +14,11 @@ namespace MedSync.Core.Application.ViewModels.Users
         [Required(ErrorMessage = "El Appellido es requerido")]
         [DataType(DataType.Text)]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Nombre de usuario es requerido")]
+        [DataType(DataType.Text)]
+        public string Username { get; set; }
+
 
         [Required(ErrorMessage = "El Email es requerido")]
         [DataType(DataType.EmailAddress)]
@@ -31,5 +37,12 @@ namespace MedSync.Core.Application.ViewModels.Users
         [Required(ErrorMessage = "El tipo de usuario es querido")]
         [DataType(DataType.Text)]
         public UserType UserType { get; set; }
+
+
+        [Required(ErrorMessage = "El nombre del consultorio es requerido")]
+        [DataType(DataType.Text)]
+        public string DoctorOfficeName { get; set; }
+
+        public int DoctorOfficeId { get; set; }
     }
 }

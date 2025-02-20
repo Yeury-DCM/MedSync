@@ -119,7 +119,7 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             #endregion
 
             #region User
-            modelBuilder.Entity<User>().HasIndex(u => u.Name).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
             modelBuilder.Entity<User>().Property(u => u.Name).HasMaxLength(40).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.LastName).HasMaxLength(40).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();

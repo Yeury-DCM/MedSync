@@ -1,6 +1,7 @@
 ﻿
 using MedSync.Core.Application.Interfaces.Services;
 using MedSync.Core.Application.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
@@ -20,6 +21,8 @@ namespace MedSync.Core.Application
             services.AddTransient<ILabTestService, LabTestService>();
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<IUserService, UserService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             #endregion
         }

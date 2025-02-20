@@ -19,9 +19,12 @@ namespace MedSync.Infraestructure.Persistence
             }
             else
             {
-
                 var connectionStrings = configuration.GetConnectionString("DefaultConnection");
-                services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionStrings, m => m.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(connectionStrings,
+                    m => m.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
             }
 
             #endregion

@@ -21,20 +21,21 @@ namespace MedSync.Infraestructure.Persistence.Repositories
             _logger = logger;
         }
 
-        public virtual async Task<bool> AddAsync(T entity)
+        public virtual async Task<T> AddAsync(T entity)
         {
 
             try
             {
                 await _entities.AddAsync(entity);
-                return await _context.SaveChangesAsync() > 0;
+                await _context.SaveChangesAsync();
+             
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.ToString());
             }
 
-            return false;
+            return entity;
         }
 
         public virtual async Task<bool> DeleteAsync(int id)
