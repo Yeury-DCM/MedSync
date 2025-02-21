@@ -1,5 +1,6 @@
 ﻿
 using MedSync.Core.Application.Interfaces.ViewModels;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace MedSync.Core.Application.ViewModels.Patients
@@ -22,6 +23,11 @@ namespace MedSync.Core.Application.ViewModels.Patients
         [Required(ErrorMessage = "Indique si tiene alergias.")]
         public bool HasAlergies { get; set; }
         public int DoctorOfficeId { get; set; } //FK
+        public string ImagePath { get; set; }
+
+        [DataType(DataType.Upload)]
+        [Required(ErrorMessage = "La imagen es requerida")]
+        public IFormFile File {  get; set; }
 
     }
 }

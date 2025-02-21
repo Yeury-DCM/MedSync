@@ -8,17 +8,18 @@ using MedSync.Core.Application.ViewModels.Doctors;
 using MedSync.Core.Application.Services;
 using MedSync.Core.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MedSync.Core.Application.ViewModels.Patients;
 
 namespace MedSync.Presentation.Web.Controllers
 {
-    public class DoctorController : Controller
+    public class PatientController : Controller
     {
-        private readonly IDoctorService _doctorService;
+        private readonly IPatientService _patientService;
         private readonly IHttpContextAccessor _httpContext;
 
-        public DoctorController(IDoctorService doctorService, IHttpContextAccessor httpContext)
+        public PatientController(IPatientService patientService, IHttpContextAccessor httpContext)
         {
-            _doctorService = doctorService;
+            _patientService = patientService;
             _httpContext = httpContext;
         }
 
@@ -26,16 +27,16 @@ namespace MedSync.Presentation.Web.Controllers
         {
             UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
 
-            return View(await _doctorService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
+            return View(await _patientService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
         }
 
         public IActionResult Add()
         {
-            return View("SaveDoctor");
+            return View("SavePatient");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(SaveDoctorViewModel saveDoctorViewModel)
+        public async Task<IActionResult> Add(SavePatientViewModel savePatientViewModel)
         {
             ModelState.Remove("ImagePath");
             ModelState.Remove("DoctorOfficeId");
@@ -43,15 +44,15 @@ namespace MedSync.Presentation.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("SaveDoctor", saveDoctorViewModel);
+                return View("SaveDoctor", savePatientViewModel);
             }
 
-            SaveDoctorViewModel doctorViewModel = await _doctorService.Add(saveDoctorViewModel);
+            SavePatientViewModel patientViewModel = await _patientService.Add(savePatientViewModel);
 
-            if (doctorViewModel != null && doctorViewModel.Id != 0)
+            if (patientViewModel != null && patientViewModel.Id != 0)
             {
-                doctorViewModel.ImagePath = (UploadFile(saveDoctorViewModel.File, doctorViewModel.Id));
-                await _doctorService.Update(doctorViewModel);
+                patientViewModel.ImagePath = (UploadFile(patientViewModel.File, patientViewModel.Id));
+                await _patientService.Update(patientViewModel);
             }
             return RedirectToAction("Index");
         }
@@ -59,49 +60,48 @@ namespace MedSync.Presentation.Web.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-            SaveDoctorViewModel saveUserViewModel = await _doctorService.GetByIdSaveViewModel(id);
+            SavePatientViewModel savePatientViewModel = await _patientService.GetByIdSaveViewModel(id);
 
-            return View("SaveDoctor", saveUserViewModel);
+            return View("SavePatient", savePatientViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SaveDoctorViewModel saveDoctorViewModel)
+        public async Task<IActionResult> Edit(SavePatientViewModel savePatientViewModel)
         {
             ModelState.Remove("File");
             ModelState.Remove("ImagePath");
 
 
-
             if (!ModelState.IsValid)
             {
 
-                return View("SaveDoctor", saveDoctorViewModel);
+                return View("SavePatient", savePatientViewModel);
             }
 
-            SaveDoctorViewModel savedDoctorViewModel = await _doctorService.GetByIdSaveViewModel(saveDoctorViewModel.Id);
+            SavePatientViewModel savedDoctorViewModel = await _patientService.GetByIdSaveViewModel(savePatientViewModel.Id);
 
-            saveDoctorViewModel.ImagePath = UploadFile(saveDoctorViewModel.File, saveDoctorViewModel.Id, true, savedDoctorViewModel.ImagePath);
+            savePatientViewModel.ImagePath = UploadFile(savePatientViewModel.File, savePatientViewModel.Id, true, savedDoctorViewModel.ImagePath);
             //  saveDoctorViewModel.
 
-            await _doctorService.Update(saveDoctorViewModel);
+            await _patientService.Update(savePatientViewModel);
 
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            DoctorViewModel? doctorViewModel = await _doctorService.GetById(id);
+            PatientViewModel? patientViewModel = await _patientService.GetById(id);
 
-            return View("DeleteDoctor", doctorViewModel);
+            return View("DeletePatient", patientViewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> DeletePost(int id)
         {
-            await _doctorService.Delete(id);
+            await _patientService.Delete(id);
 
             //Get Directory Path
-            string basePath = $"/images/Doctors/{id}";
+            string basePath = $"/images/Patients/{id}";
             string path = $"{Directory.GetCurrentDirectory()}/wwwroot{basePath}";
 
             if (Directory.Exists(path))
@@ -132,7 +132,7 @@ namespace MedSync.Presentation.Web.Controllers
             }
 
             //Get Directory Path
-            string basePath = $"/images/Doctors/{id}";
+            string basePath = $"/images/Patients/{id}";
             string path = $"{Directory.GetCurrentDirectory()}/wwwroot{basePath}";
 
             //Create folder if no exists

@@ -1,0 +1,57 @@
+﻿@using MedSync.Core.Application.ViewModels.Patients
+@model List<PatientViewModel>
+@{
+    ViewData["Title"] = "Mantenimiento de Doctores";
+}
+
+<div class="row">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <a asp-controller="Doctor" asp-action="Add" class="btn btn-success"> Agregar Nuevo Doctor</a>
+    </div>
+    @if (Model == null || Model.Count == 0)
+    {
+        <h2 class="text-light">No se encontraron doctores</h2>
+    }
+    else
+    {
+
+        @foreach (PatientViewModel patient in Model)
+        {
+            <div class="col-3 mb-4">
+                <div class="card shadow-sm bg-light h-100 d-flex flex-column rounded-3">
+
+                    <div class="ratio ratio-4x3">
+
+                        <img class="w-100 h-100 object-fit-cover" src="@patient.ImagePath" alt="@patient.Name" />
+
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="text-dark card-title fw-bold">@patient.Name @patient.LastName</h5>
+
+                        <p class="text-secondary small mb-1"><strong>Teléfono: </strong> @patient.PhoneNumber</p>
+                        <p class="small text-secondary mb-1"><strong>Cédula: </strong> @patient.IdentificationNumber</p>
+
+
+                        <div class="d-flex justify-content-between align-items-center">
+                  
+                            <div class="btn-group">
+                                <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@patient.Id" type="button" class="btn btn-sm btn-outline-info">Detalle</a>
+                                <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@patient.Id" type="button" class="btn btn-sm btn-outline-warning"> Editar </a>
+                                <a asp-controller="Doctor" asp-action="Delete" asp-route-id="@patient.Id" type="button" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    }
+
+
+</div>
+</div>

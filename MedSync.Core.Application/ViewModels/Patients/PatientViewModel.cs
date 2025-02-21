@@ -17,6 +17,7 @@ namespace MedSync.Core.Application.ViewModels.Patients
         public bool IsSmoker { get; set; }
         public bool HasAlergies { get; set; }
         public DateTime BirthDate { get; set; }
+        public string ImagePath { get; set; }
 
         public DoctorOfficeViewModel DoctorOffice { get; set; }
         public ICollection<AppoimentViewModel> Appoiments { get; set;}
