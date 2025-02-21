@@ -69,13 +69,12 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<Doctor>().Property(d => d.Name).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Doctor>().Property(d => d.LastName).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Doctor>().Property(d => d.Email).IsRequired();
-            modelBuilder.Entity<Doctor>().Property(d => d.Phone).IsRequired();
             modelBuilder.Entity<Doctor>().Property(d => d.IdentificationNumber).IsRequired();
-            modelBuilder.Entity<Doctor>().Property(d => d.ImagePath).IsRequired();
             modelBuilder.Entity<Doctor>().Property(d => d.DoctorOfficeId).IsRequired();
             modelBuilder.Entity<Doctor>().Property(d => d.IsActive).IsRequired();
             modelBuilder.Entity<Doctor>().Property(d => d.CreatedBy).IsRequired();
             modelBuilder.Entity<Doctor>().Property(d => d.CreatedOn).IsRequired();
+            modelBuilder.Entity<Doctor>().Property(d => d.ImagePath).IsRequired(false);
             modelBuilder.Entity<Doctor>().Property(d => d.LastModified).IsRequired(false);
             modelBuilder.Entity<Doctor>().Property(d => d.LastModifiedBy).IsRequired(false);
             #endregion

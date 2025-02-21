@@ -4,7 +4,8 @@
     {
         Task<List<ViewModel>> GetAllViewModel();
         Task<ViewModel?> GetById(int id);
-        Task<Entity> Add(SaveViewModel saveViewModel);
+        Task<SaveViewModel> GetByIdSaveViewModel(int id);
+        Task<SaveViewModel> Add(SaveViewModel saveViewModel);
         Task<bool> Update(SaveViewModel viewModel);
         Task<bool> Delete(int id);
     }

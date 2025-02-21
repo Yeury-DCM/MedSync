@@ -3,8 +3,9 @@ using MedSync.Core.Domain.Entities;
 
 namespace MedSync.Core.Application.Interfaces.Services
 {
-    public interface IUserService : IGenericService<UserViewModel, SaveUserViewModel, User>, IGetAllByDoctorOffice<UserViewModel>   
+    public interface IAccountService 
     {
- 
+        Task<UserViewModel> Login(LoginViewModel viewModel);
+      
     }
 }

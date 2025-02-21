@@ -1,4 +1,5 @@
 ﻿
+using MedSync.Core.Application.Interfaces.ViewModels;
 using MedSync.Core.Application.ViewModels.LabTests;
 using MedSync.Core.Domain.Entities;
 using MedSync.Core.Domain.Enums;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MedSync.Core.Application.ViewModels.Appoiments
 {
-    public class SaveAppoimentViewModel
+    public class SaveAppoimentViewModel : IHaveId
     {
        
         public int Id { get; set; }

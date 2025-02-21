@@ -1,75 +1,67 @@
-﻿@model MedSync.Core.Application.ViewModels.Users.LoginViewModel
-@section NoSidebar { }
+﻿@model List<MedSync.Core.Application.ViewModels.Users.UserViewModel>
+@using MedSync.Core.Application.ViewModels.Users
 @{
-    ViewData["Title"] = "Inicia sesión";
-
+    ViewData["Title"] = "Mantenimiento de usuarios";
 }
 
-<div class="container mt-xxl-5">
+<div class="container-fluid px-0">
 
-    <section class="pb-4">
-        <div class="border rounded-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
 
-            <section class="w-100">
-                <style>
-                    .divider:after,
-                    .divider:before {
-                        content: "";
-                        flex: 1;
-                        height: 1px;
-                        background: #eee;
-                    }
+        <a asp-controller="User" asp-action="Add" class="btn btn-success"> Agregar Nuevo Usuario</a>
+    </div>
 
-                    .h-custom {
-                        height: calc(100% - 73px);
-                    }
+    <div class="row">
 
-                    @@media (max-width: 450px) {
-                        .h-custom {
-                            height: 100%;
+        @if (Model == null || Model.Count == 0)
+        {
+            <h2 class="text-dark">No se encontraron usuarios</h2>
+        }
+        else
+        {
+            <div class="card bg-light">
+                <table class="table table-hover table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Nombre de usuario</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Tipo de usuario</th>
+                            <th scope="col">Acción</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (UserViewModel user in Model)
+                        {
+                            <tr>
+                                <td>@user.Name</td>
+                                <td>@user.LastName</td>
+                                <td>@user.Username</td>
+                                <td>@user.Email</td>
+                                <td>@user.UserType.ToString()</td>
+
+                                <td>
+                                    <div class="btn-group btn-group-sm d-flex">
+                                        <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id" type="button" class="btn btn-sm btn-outline-warning">Editar</a>
+                                        <a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" type="button" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                    </div>
+                                </td>
+
+
+
+                            </tr>
                         }
-                    }
-                </style>
-                <div class="container-fluid h-custom">
-                    <div class="row d-flex justify-content-center align-items-center h-100">
-                        <div class="col-md-9 col-lg-6 col-xl-6 my-lg-5 py-lg-5">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Sample image">
-                        </div>
-                        <div class="col-md-8 col-lg-6 col-xl-5 offset-xl-1 my-lg-5 py-lg-5">
-                            @Html.ValidationSummary(false, "", new{@class = "text-danger"})
-                            <form method="post" asp-action="Index" asp-controller="User">
-                                <!-- Email input -->
-                                <div data-mdb-input-init="" class="form-outline mb-4" data-mdb-input-initialized="true">
 
-                                    <label asp-for="UserName" class="form-label" for="form3Example3" style="margin-left: 0px;">Nombre de usuario</label>
-                                    <input  asp-for="UserName" type="text" class="form-control form-control-lg">
+                    </tbody>
+                </table>
+            </div>
 
-  
-                                </div>
 
-                                <!-- Password input -->
-                                <div data-mdb-input-init="" class="form-outline mb-3" data-mdb-input-initialized="true">
-                                    <label asp-for="Password" class="form-label" for="form3Example3" style="margin-left: 0px;">Contraseña</label>
-                                    <input asp-for="Password" type="password" class="form-control form-control-lg">
+        }
 
-                                
-                                </div>
 
-                                <div class="text-center text-lg-start mt-4 pt-2">
-                                    <button type="submit" data-mdb-button-init="" data-mdb-ripple-init="" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" data-mdb-button-initialized="true">Iniciar Sesión</button>
-                                    <p class="small fw-bold mt-2 pt-1 mb-0">¿No tienes una cuenta?<a asp-controller="User" asp-action="Register" class="link-danger"> Registrate</a></p>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-    </section>
-
+    </div>
 </div>
-
-
-

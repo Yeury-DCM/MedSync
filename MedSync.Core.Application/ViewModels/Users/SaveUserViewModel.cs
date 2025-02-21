@@ -1,10 +1,11 @@
 ﻿
+using MedSync.Core.Application.Interfaces.ViewModels;
 using MedSync.Core.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace MedSync.Core.Application.ViewModels.Users
 {
-    public class SaveUserViewModel
+    public class SaveUserViewModel : IHaveId
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "El nombre es requerido")]

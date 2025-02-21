@@ -21,6 +21,8 @@ namespace MedSync.Core.Application
             services.AddTransient<ILabTestService, LabTestService>();
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAccountService, AccountService>();
+
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

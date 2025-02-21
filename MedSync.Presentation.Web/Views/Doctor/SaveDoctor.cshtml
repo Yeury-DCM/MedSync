@@ -1,0 +1,71 @@
+﻿@model MedSync.Core.Application.ViewModels.Doctors.SaveDoctorViewModel
+@{
+    bool editMode = Model != null && Model.Id != 0;
+    ViewData["Title"] = "Guardar doctor";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class=" card g-5">
+            <div class="card-header bg-light text-dark">
+                <h4 class="fw-semi-bold">@(editMode ? $"Editando el doctor: {Model.Name}" : "Agregando nuevo doctor")</h4>
+            </div>
+
+            <div class="card-body bg-light text-dark">
+
+                <form method="post" enctype="multipart/form-data" asp-action=@(editMode? "Edit" : "Add") asp-controller="Doctor">
+
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Name" class="form-label">Nombre</label>
+                            <input asp-for="Name" type="text" placeholder="Juan" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label">Apellido</label>
+                            <input asp-for="LastName" type="text" placeholder="Pérez" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6 ">
+                            <label asp-for="Email" class="form-label">Correo Electrónico</label>
+                            <input asp-for="Email" type="email" placeholder="juanperez@gmail.com" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 col-md-6 ">
+                            <label asp-for="PhoneNumber" class="form-label">Numero Telefónico</label>
+                            <input asp-for="PhoneNumber" type="number" placeholder="8099382912" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6 ">
+                            <label asp-for="IdentificationNumber" class="form-label">Número de Cédula</label>
+                            <input asp-for="IdentificationNumber" type="text" placeholder="402-3194829-3" class="form-control"/>
+                            <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 col-md-6 ">
+                            <label asp-for="File" class="form-label">Selecciona una foto del doctor</label>
+                            <input asp-for="File" class="form-control" />
+                            <span asp-validation-for="File" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <input type ="hidden" asp-for="Id"/>
+                    <input type="hidden" asp-for="DoctorOfficeId" />
+
+                    <a asp-action="Index" asp-controller="User" class="btn btn-warning">Volver</a>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+﻿@using MedSync.Core.Application.ViewModels.Doctors
+@model List<DoctorViewModel>
+@{
+    ViewData["Title"] = "Mantenimiento de Doctores";
+}
+
+<div class="row">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <a asp-controller="Doctor" asp-action="Add" class="btn btn-success"> Agregar Nuevo Doctor</a>
+    </div>
+    @if (Model == null || Model.Count == 0)
+    {
+        <h2 class="text-light">No se encontraron doctores</h2>
+    }
+    else
+    {
+
+        @foreach (DoctorViewModel doctor in Model)
+        {
+            <div class="col-3 mb-4">
+                <div class="card shadow-sm bg-light h-100 d-flex flex-column rounded-3">
+
+                    <div class="ratio ratio-4x3">
+
+                        <img class="w-100 h-100 object-fit-cover" src="@doctor.ImagePath" alt="@doctor.Name" />
+
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="text-dark card-title fw-bold">@doctor.Name @doctor.LastName</h5>
+
+                        <p class="text-secondary small mb-1"><strong>Teléfono: </strong> @doctor.PhoneNumber</p>
+                        <p class="text-secondary small mb-1"><strong>Email: </strong> @doctor.Email</p>
+                        <p class="small text-secondary mb-1"><strong>Cédula: </strong> @doctor.IdentificationNumber</p>
+
+
+                        <div class="d-flex justify-content-between align-items-center">
+                  
+                            <div class="btn-group">
+                                <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@doctor.Id" type="button" class="btn btn-sm btn-outline-info">Detalle</a>
+                                <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@doctor.Id" type="button" class="btn btn-sm btn-outline-warning"> Editar </a>
+                                <a asp-controller="Doctor" asp-action="Delete" asp-route-id="@doctor.Id" type="button" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    }
+
+
+</div>
+</div>

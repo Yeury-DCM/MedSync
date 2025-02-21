@@ -1,10 +1,12 @@
 ﻿
 using AutoMapper;
+using MedSync.Core.Application.Helpers;
 using MedSync.Core.Application.Interfaces.Repositories;
 using MedSync.Core.Application.Interfaces.Services;
 using MedSync.Core.Application.ViewModels.DoctorOffices;
 using MedSync.Core.Application.ViewModels.Users;
 using MedSync.Core.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace MedSync.Core.Application.Services
 {
@@ -13,25 +15,36 @@ namespace MedSync.Core.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IDoctorOfficeService _officeSerivice;
         private readonly IMapper _mapper;
-
-        public UserService(IUserRepository repository, IMapper mapper, IDoctorOfficeService officeService) : base(repository, mapper)
+        private readonly IHttpContextAccessor _httpContext;
+        public UserService(IUserRepository repository, IMapper mapper, IDoctorOfficeService officeService, IHttpContextAccessor httpContext) : base(repository, mapper)
         {
             _userRepository = repository;
             _mapper = mapper;
             _officeSerivice = officeService;
+            _httpContext = httpContext;
+
         }
 
-        public override async Task<User> Add(SaveUserViewModel saveViewModel)
+        public override async Task<SaveUserViewModel> Add(SaveUserViewModel saveViewModel)
         {
-            SaveDoctorOfficeViewModel officeViewModel = new()
+            if(saveViewModel.DoctorOfficeName != null)
             {
-                Name = saveViewModel.DoctorOfficeName,
+                SaveDoctorOfficeViewModel officeViewModel = new()
+                {
+                    Name = saveViewModel.DoctorOfficeName,
 
-            };
+                };
 
-            DoctorOffice office =await _officeSerivice.Add(officeViewModel);
+                SaveDoctorOfficeViewModel office = await _officeSerivice.Add(officeViewModel);
 
-            saveViewModel.DoctorOfficeId = office.Id;
+                saveViewModel.DoctorOfficeId = office.Id;
+
+                return await base.Add(saveViewModel);
+            }
+
+            UserViewModel user = _httpContext.HttpContext.Session.Get<UserViewModel>("user")!;
+
+            saveViewModel.DoctorOfficeId = user.DoctorOfficeId;
             
 
             return await base.Add(saveViewModel);
@@ -50,5 +63,21 @@ namespace MedSync.Core.Application.Services
 
             return userViewModel;
         }
+
+        public async Task<List<UserViewModel>> GetAllByDoctorOfficeAsync(int doctorOfficeId)
+        {
+            List<User> usersByDoctorOffice =  ((List<User>) await _userRepository.GetAllAsync())
+                                               .Where(u => u.DoctorOfficeId == doctorOfficeId).ToList();
+
+            List<UserViewModel> usersViewModel = _mapper.Map<List<UserViewModel>>(usersByDoctorOffice);
+
+            return usersViewModel;
+        }
+
+        public Enum GetUserTypes()
+        {
+            throw new NotImplementedException();
+        }
+
     }   
 }

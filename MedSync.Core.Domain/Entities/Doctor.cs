@@ -5,7 +5,6 @@ namespace MedSync.Core.Domain.Entities
     public class Doctor : IdentifiablePerson
     {
         public string Email { get; set; }
-        public string Phone { get; set; }
 
         public int DoctorOfficeId {  get; set; }
 

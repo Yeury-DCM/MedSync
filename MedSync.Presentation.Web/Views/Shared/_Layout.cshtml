@@ -36,13 +36,13 @@
                 @if(user.UserType == UserType.Administrador)
                 {
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
+                        <a asp-controller="User" asp-action="Index" class="nav-link" aria-current="page">
                             Usuarios
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" aria-current="page">
+                        <a asp-controller="Doctor" asp-action="Index" class="nav-link" aria-current="page">
                             Doctores
                         </a>
                     </li>
@@ -83,7 +83,7 @@
                 </a>
                 <ul class="dropdown-menu text-small shadow">
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" asp-controller="User" asp-action="LogOut">Cerrar Sesión</a></li>
+                    <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="LogOut">Cerrar Sesión</a></li>
                 </ul>
             </div>
         </aside>

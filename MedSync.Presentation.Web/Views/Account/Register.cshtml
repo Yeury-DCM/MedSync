@@ -15,7 +15,7 @@
                             <div class="card-body p-4">
                                 <h3 class="text-center text-uppercase mb-4">Crear una cuenta</h3>
 
-                                <form method="post" asp-action="Register" asp-controller="User">
+                                <form method="post" asp-action="Register" asp-controller="Account">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label asp-for="Name" class="form-label">Nombre</label>
@@ -75,7 +75,7 @@
                                     </div>
 
                                     <p class="text-center text-muted mt-4">
-                                        ¿Ya tienes una cuenta? <a asp-controller="User" asp-action="Index"
+                                        ¿Ya tienes una cuenta? <a asp-controller="Account" asp-action="Login"
                                                                   class="fw-bold text-primary"><u>Inicia sesión aquí</u></a>
                                     </p>
                                 </form>

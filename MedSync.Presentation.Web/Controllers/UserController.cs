@@ -1,53 +1,32 @@
-﻿using MedSync.Core.Application.Helpers;
-using MedSync.Core.Application.Interfaces.Services;
+﻿using MedSync.Core.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Mvc;
+using MedSync.Core.Application.Helpers;
 using MedSync.Core.Application.ViewModels.Users;
 using MedSync.Core.Domain.Enums;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace MedSync.Presentation.Web.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IDoctorOfficeService _officeService;
+        private readonly IHttpContextAccessor _httpContext;
 
 
-        public UserController(IUserService userService, IDoctorOfficeService officeService)
+        public UserController(IUserService userService, IHttpContextAccessor contextAccessor)
         {
             _userService = userService;
-            _officeService = officeService;
+            _httpContext = contextAccessor;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
+
         {
-            return View();
+            UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
+
+            return View(await _userService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(LoginViewModel loginViewModel)
-        {
-            if(!ModelState.IsValid)
-            {
-                return View(loginViewModel);
-            }
-
-            UserViewModel userVm = await _userService.Login(loginViewModel);
-
-            if (userVm != null)
-            {
-                HttpContext.Session.Set<UserViewModel>("user", userVm);
-                return RedirectToRoute(new { controller = "Home", Action = "Index" });
-            }
-            else
-            {
-                ModelState.AddModelError("LoginError", "Datos de acceso incorrectos");
-            }
-
-            return View(loginViewModel);
-
-        }
-
-        public IActionResult Register()
+        public IActionResult Add()
         {
             ViewBag.UserTypes = Enum.GetValues(typeof(UserType))
                           .Cast<UserType>()
@@ -57,12 +36,56 @@ namespace MedSync.Presentation.Web.Controllers
                               Text = e.ToString()
                           })
                           .ToList();
-            return View();
+
+            return View("SaveUser");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(SaveUserViewModel saveUserViewModel)
+        public async Task<IActionResult> Add(SaveUserViewModel saveUserViewModel)
         {
+            ModelState.Remove("DoctorOfficeName");
+            if(!ModelState.IsValid)
+            {
+                ViewBag.UserTypes = Enum.GetValues(typeof(UserType))
+                          .Cast<UserType>()
+                          .Select(e => new SelectListItem
+                          {
+                              Value = e.ToString(),
+                              Text = e.ToString()
+                          })
+                          .ToList();
+                return View("SaveUser", saveUserViewModel);
+            }
+
+            await _userService.Add(saveUserViewModel);
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            SaveUserViewModel saveUserViewModel = await _userService.GetByIdSaveViewModel(id);
+
+            ViewBag.UserTypes = Enum.GetValues(typeof(UserType))
+                          .Cast<UserType>()
+                          .Select(e => new SelectListItem
+                          {
+                              Value = e.ToString(),
+                              Text = e.ToString()
+                          })
+                          .ToList();
+
+
+            return View("SaveUser", saveUserViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(SaveUserViewModel saveUserViewModel)
+        {
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("DoctorOfficeName");
 
 
             if (!ModelState.IsValid)
@@ -76,17 +99,27 @@ namespace MedSync.Presentation.Web.Controllers
                           })
                           .ToList();
 
-                return View(saveUserViewModel);
+                return View("SaveUser", saveUserViewModel);
             }
 
-            await _userService.Add(saveUserViewModel);
-            return RedirectToRoute(new {controller = "User", action = "Index"});
+            await _userService.Update(saveUserViewModel);
+
+            return RedirectToAction("Index");
         }
 
-        public IActionResult LogOut()
+        public async Task<IActionResult> Delete(int id)
         {
-            HttpContext.Session.Remove("user");
-            return RedirectToRoute(new { controller = "User", action = "Index" });
+            UserViewModel? userViewModel = await _userService.GetById(id);
+
+            return View("DeleteUser", userViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            await _userService.Delete(id);
+
+            return RedirectToAction("Index");
         }
     }
 }

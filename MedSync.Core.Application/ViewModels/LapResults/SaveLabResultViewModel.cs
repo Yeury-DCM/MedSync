@@ -1,11 +1,12 @@
 ﻿
+using MedSync.Core.Application.Interfaces.ViewModels;
 using MedSync.Core.Domain.Entities;
 using MedSync.Core.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace MedSync.Core.Application.ViewModels.LapResults
 {
-    public class SaveLabResultViewModel
+    public class SaveLabResultViewModel : IHaveId
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "La descripción es requerida")]

@@ -18,4 +18,8 @@
     <ProjectReference Include="..\MedSync.Infraestructure.Persistence\MedSync.Infraestructure.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\Doctors\" />
+  </ItemGroup>
+
 </Project>

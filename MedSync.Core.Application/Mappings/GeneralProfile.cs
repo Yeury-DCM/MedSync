@@ -49,21 +49,17 @@ namespace MedSync.Core.Application.Mappings
                 .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-                .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
                 .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
                 .ForMember(dest => dest.IsActive, otp => otp.Ignore());
 
 
-            CreateMap<Appoiment, SaveAppoimentViewModel>()
+            CreateMap<Doctor, SaveDoctorViewModel>()
                  .ReverseMap()
                 .ForMember(dest => dest.CreatedBy, otp => otp.Ignore())
                 .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-                .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
                 .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
-                .ForMember(dest => dest.Doctor, otp => otp.Ignore())
-                .ForMember(dest => dest.Patient, otp => otp.Ignore())
                 .ForMember(dest => dest.IsActive, otp => otp.Ignore());
 
             #endregion
@@ -169,7 +165,6 @@ namespace MedSync.Core.Application.Mappings
             .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
             .ForMember(dest => dest.LastModified, otp => otp.Ignore())
             .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-            .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
             .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore());
 
             CreateMap<User, SaveUserViewModel>()
@@ -183,7 +178,9 @@ namespace MedSync.Core.Application.Mappings
             .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore());
             #endregion
 
-
+            #region Entity User (Domain Level)
+            CreateMap<User, User>();
+            #endregion
         }
     }
 }

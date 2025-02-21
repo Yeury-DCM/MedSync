@@ -1,9 +1,10 @@
 ﻿
+using MedSync.Core.Application.Interfaces.ViewModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace MedSync.Core.Application.ViewModels.Patients
 {
-    public class SavePatientViewModel
+    public class SavePatientViewModel : IHaveId
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "El nombre es requerido.")]

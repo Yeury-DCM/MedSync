@@ -21,5 +21,10 @@ namespace MedSync.Core.Application.Services
             _mapper = mapper;
             _repository = repository;
         }
+
+        public Task<List<Appoiment>> GetAllByDoctorOfficeAsync(int doctorOfficeId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
