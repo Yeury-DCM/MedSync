@@ -44,14 +44,14 @@ namespace MedSync.Presentation.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("SaveDoctor", savePatientViewModel);
+                return View("SavePatient", savePatientViewModel);
             }
 
             SavePatientViewModel patientViewModel = await _patientService.Add(savePatientViewModel);
 
             if (patientViewModel != null && patientViewModel.Id != 0)
             {
-                patientViewModel.ImagePath = (UploadFile(patientViewModel.File, patientViewModel.Id));
+                patientViewModel.ImagePath = (UploadFile(savePatientViewModel.File, patientViewModel.Id));
                 await _patientService.Update(patientViewModel);
             }
             return RedirectToAction("Index");

@@ -109,7 +109,7 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<Patient>().Property(p => p.IdentificationNumber).IsRequired();
             modelBuilder.Entity<Patient>().Property(p => p.IsSmoker).IsRequired();
             modelBuilder.Entity<Patient>().Property(p => p.HasAlergies).IsRequired();
-            modelBuilder.Entity<Patient>().Property(p => p.ImagePath).IsRequired();
+            modelBuilder.Entity<Patient>().Property(p => p.ImagePath).IsRequired(false);
             modelBuilder.Entity<Patient>().Property(p => p.DoctorOfficeId).IsRequired();
             modelBuilder.Entity<Patient>().Property(p => p.CreatedBy).IsRequired();
             modelBuilder.Entity<Patient>().Property(p => p.CreatedOn).IsRequired();

@@ -7,16 +7,16 @@
     <div class="col-6 offset-3">
         <div class="card">
             <div class="card-header bg-danger text-light ">
-                <h4>¿Estás seguro que quieres elimr el doctor @Model.Name @Model.LastName?</h4>
+                <h4>¿Estás seguro que quieres elimr el paciente @Model.Name @Model.LastName?</h4>
             </div>
             <div class="card-body bg-light text-dark">
 
-                <form method="post" asp-controller="Doctor" asp-action="DeletePost">
+                <form method="post" asp-controller="Patient" asp-action="DeletePost">
 
                     <input type="hidden" asp-for="Id" />
 
                     <button type="submit" class="btn btn-danger">Eliminar</button>
-                    <a asp-controller="User" asp-action="Index" class="btn btn-warning">Cancelar</a>
+                    <a asp-controller="Patient" asp-action="Index" class="btn btn-warning">Cancelar</a>
                 </form>
             </div>
         </div>

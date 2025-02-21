@@ -4,7 +4,7 @@ using MedSync.Core.Domain.Entities;
 
 namespace MedSync.Core.Application.Interfaces.Services
 {
-    public interface IPatientService : IGenericService<PatientViewModel, SavePatientViewModel, Patient>, IGetAllByDoctorOffice<Patient>
+    public interface IPatientService : IGenericService<PatientViewModel, SavePatientViewModel, Patient>, IGetAllByDoctorOffice<PatientViewModel>
     {
     }
 }
