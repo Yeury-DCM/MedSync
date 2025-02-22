@@ -4,7 +4,9 @@ using MedSync.Core.Domain.Entities;
 
 namespace MedSync.Core.Application.Interfaces.Services
 {
-    public interface IAppoimentService : IGenericService<AppoimentViewModel,SaveAppoimentViewModel, Appoiment>, IGetAllByDoctorOffice<Appoiment>
+    public interface IAppoimentService : IGenericService<AppoimentViewModel,SaveAppoimentViewModel, Appoiment>, IGetAllByDoctorOffice<AppoimentViewModel>
     {
+        Task<List<AppoimentViewModel>> GetFullAppoiments();
+
     }
 }

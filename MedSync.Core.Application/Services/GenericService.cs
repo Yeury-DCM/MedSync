@@ -27,6 +27,7 @@ namespace MedSync.Core.Application.Services
             Entity entity = _mapper.Map<Entity>(saveViewModel);
             entity.CreatedOn = DateTime.Now;
             entity.CreatedBy = 0;
+        
            
     
             return  _mapper.Map<SaveViewModel>(await _repository.AddAsync(entity)) ;

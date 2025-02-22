@@ -1,0 +1,36 @@
+﻿@model MedSync.Core.Application.ViewModels.LabTests.SaveLabTestViewModel
+@{
+    bool editMode = Model != null && Model.Id != 0;
+    ViewData["Title"] = "Guardar usuario";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class=" card g-5">
+            <div class="card-header bg-light text-dark">
+                <h4 class="fw-semi-bold">@(editMode ? $"Editando la prueba de laboratorio: {Model.Name}" : "Agregando nueva prueba de laboratorio")</h4>
+            </div>
+
+            <div class="card-body bg-light text-dark">
+
+                <form method="post" asp-action=@(editMode? "Edit" : "Add") asp-controller="LabTest">
+
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Name" class="form-label">Nombre</label>
+                            <input asp-for="Name" type="text" placeholder="Tipado de grupo sanguíneo" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" asp-for= "DoctorOfficeId"/>
+
+                    <a asp-action="Index" asp-controller="LabTest" class="btn btn-warning">Volver</a>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

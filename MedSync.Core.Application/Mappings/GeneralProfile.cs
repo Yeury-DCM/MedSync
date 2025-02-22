@@ -23,8 +23,6 @@ namespace MedSync.Core.Application.Mappings
                 .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-                .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
-                .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
                 .ForMember(dest => dest.IsActive, otp => otp.Ignore());
 
 
@@ -34,8 +32,6 @@ namespace MedSync.Core.Application.Mappings
                 .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-                .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
-                .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
                 .ForMember(dest => dest.Doctor, otp => otp.Ignore())
                 .ForMember(dest => dest.Patient, otp => otp.Ignore())
                 .ForMember(dest => dest.IsActive, otp => otp.Ignore());
@@ -90,7 +86,6 @@ namespace MedSync.Core.Application.Mappings
                 .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-                .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
                 .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
                 .ForMember(dest => dest.IsActive, otp => otp.Ignore());
 
@@ -103,7 +98,6 @@ namespace MedSync.Core.Application.Mappings
                 .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-                .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
                 .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
                 .ForMember(dest => dest.Appoiment, otp => otp.Ignore())
                 .ForMember(dest => dest.AppoimentId, otp => otp.Ignore())
@@ -120,7 +114,7 @@ namespace MedSync.Core.Application.Mappings
              .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
              .ForMember(dest => dest.LastModified, otp => otp.Ignore())
              .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-             .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
+     
              .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore());
 
             CreateMap<LabResult, LabResultViewModel>()
@@ -129,7 +123,7 @@ namespace MedSync.Core.Application.Mappings
                .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
                .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-               .ForMember(dest => dest.DoctorOfficeId, otp => otp.Ignore())
+             
                .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
                .ForMember(dest => dest.Patient, otp => otp.Ignore())
                .ForMember(dest => dest.LabTest, otp => otp.Ignore());

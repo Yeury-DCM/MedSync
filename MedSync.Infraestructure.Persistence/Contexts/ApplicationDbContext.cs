@@ -60,9 +60,6 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<Appoiment>().Property(ap => ap.LastModifiedBy).IsRequired(false);
 
 
-
-
-
             #endregion
 
             #region Doctor
@@ -139,14 +136,14 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             //One Doctor Has Many Appoiments
 
             modelBuilder.Entity<Appoiment>()
-                .HasOne(ap => ap.Doctor)
+                .HasOne<Doctor>(ap => ap.Doctor)
                 .WithMany(d => d.Appoiments)
                 .HasForeignKey(a => a.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //One Patient Has Many Appoiments
             modelBuilder.Entity<Patient>()
-                .HasMany(pa => pa.Appoiments)
+                .HasMany<Appoiment>(pa => pa.Appoiments)
                 .WithOne(pa => pa.Patient)
                 .HasForeignKey(pa => pa.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -206,5 +203,8 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             #endregion
         }
 
+
     }
+
+
 }

@@ -9,6 +9,7 @@ namespace MedSync.Core.Application.ViewModels.LabTests
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int DoctorOfficeId { get; set; }
         public int? AppoimentId { get; set; } 
         public ICollection<LabResultViewModel>? LabResults { get; set; }
         public AppoimentViewModel? Appoiment { get; set; }
