@@ -38,7 +38,7 @@ namespace MedSync.Infraestructure.Persistence.Repositories
             return entity;
         }
 
-        public virtual async Task<bool> DeleteAsync(int id)
+        public virtual async Task<bool> DeleteAsync( int id)
         {
             try
             {

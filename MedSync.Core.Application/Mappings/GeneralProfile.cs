@@ -123,10 +123,9 @@ namespace MedSync.Core.Application.Mappings
                .ForMember(dest => dest.CreatedOn, otp => otp.Ignore())
                .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
-             
+
                .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
-               .ForMember(dest => dest.Patient, otp => otp.Ignore())
-               .ForMember(dest => dest.LabTest, otp => otp.Ignore());
+               .ForMember(dest => dest.Patient, otp => otp.Ignore());
 
             #endregion
 

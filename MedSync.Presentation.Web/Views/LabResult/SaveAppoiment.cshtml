@@ -1,0 +1,93 @@
+﻿@model MedSync.Core.Application.ViewModels.Appoiments.SaveAppoimentViewModel
+@using MedSync.Core.Application.ViewModels.Doctors
+@using MedSync.Core.Application.ViewModels.Patients
+@using Microsoft.AspNetCore.Components.Forms
+
+@{
+    bool editMode = Model != null && Model.Id != 0;
+    ViewData["Title"] = "Guardar usuario";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class=" card g-5">
+            <div class="card-header bg-light text-dark">
+                <h4 class="fw-semi-bold">@(editMode ? $"Editando la cita" : "Agregando nueva cita")</h4>
+            </div>
+
+            <div class="card-body bg-light text-dark">
+
+                <form method="post" asp-action=@(editMode? "Edit" : "Add") asp-controller="Appoiment">
+
+
+                    <div class="row">
+
+                        <label asp-for="Cause" class="form-label">Motivo de consulta</label>
+                        <input asp-for="Cause" type="text" placeholder="E.j. Dolor de cabeza" class="form-control" />
+                        <span asp-validation-for="Cause" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="PatientId" class="form-label">Paciente</label>
+                            <select asp-for="PatientId" class="form-select bg-light text-dark">
+                                <option>Selecciona una opción</option>
+                                @foreach (PatientViewModel patient in ViewBag.Patients)
+                                {
+                                    <option value="@patient.Id">@patient.Name @patient.LastName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="PatientId" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DoctorId" class="form-label">Doctor</label>
+                            <select asp-for="DoctorId" class="form-select bg-light text-dark">
+                                <option>Selecciona una opción</option>
+                                @foreach (DoctorViewModel doctor in ViewBag.Doctors)
+                                {
+                                    <option value="@doctor.Id">@doctor.Name @doctor.LastName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="PatientId" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <!-- Columna para la fecha -->
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Date"></label>
+                                <input asp-for="Date" type="date" class="form-control" />
+                                <span asp-validation-for="Date" class="text-danger"></span>
+                            </div>
+
+                            <!-- Columna para la hora -->
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Time" class="form-label">Hora</label>
+                                <input asp-for="Time" type="time" class="form-control" />
+                                <span asp-validation-for="Time" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <input type="hidden" asp-for="DoctorOfficeId" />
+
+                    <a asp-action="Index" asp-controller="LabTest" class="btn btn-warning">Volver</a>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

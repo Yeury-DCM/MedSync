@@ -148,12 +148,11 @@ namespace MedSync.Infraestructure.Persistence.Contexts
                 .HasForeignKey(pa => pa.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // One LabTes has Many results
+            // Mant LabTests as many results
             modelBuilder.Entity<LabResult>()
-                .HasOne(lr => lr.LabTest)
+                .HasMany(lr => lr.LabTests)
                 .WithMany(lt => lt.LabResults)
-                .HasForeignKey(lr => lr.LabTestId) // Usa LabTestId como clave foránea
-                .OnDelete(DeleteBehavior.Restrict);
+                .UsingEntity("LabTestLabResult");
 
             //Appoiment to many tests
             modelBuilder.Entity<Appoiment>()

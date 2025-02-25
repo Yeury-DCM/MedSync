@@ -1,5 +1,6 @@
 ﻿@model List<MedSync.Core.Application.ViewModels.Appoiments.AppoimentViewModel>
 @using MedSync.Core.Application.ViewModels.Appoiments
+@using MedSync.Core.Domain.Enums
 @{
     ViewData["Title"] = "Mantenimiento de pruebas de citas";
 }
@@ -46,8 +47,18 @@
                                 <td>@appoiment.Status</td>                             
                                 <td>
                                     <div class="btn-group btn-group-sm d-flex">
-                                        <a asp-controller="Appoiment" sp-action="Edit" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-warning">Editar</a>
-                                        <a asp-controller="Appoiment" asp-action="Delete" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                        @if(appoiment.Status == Status.PendingConsultation)
+                                        {
+                                            <a asp-controller="Appoiment" asp-action="DelCete" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar</a>
+                                        }
+                                        else if (appoiment.Status == Status.PendigResult)
+                                        {
+                                            <a asp-controller="Appoiment" asp-action="DelCete" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar resultado</a>
+                                        }
+                                        else if (appoiment.Status == Status.Completed)
+                                        {
+                                            <a asp-controller="Appoiment" asp-action="DelCete" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Ver resultados</a>
+                                        }
                                     </div>
                                 </td>
 

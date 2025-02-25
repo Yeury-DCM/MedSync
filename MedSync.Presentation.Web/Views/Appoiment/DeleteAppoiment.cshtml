@@ -1,23 +1,39 @@
-﻿@model MedSync.Core.Application.ViewModels.Appoiments.AppoimentViewModel
+﻿@model MedSync.Core.Application.ViewModels.Appoiments.SaveAppoimentViewModel
+@using MedSync.Core.Application.ViewModels.LabTests
 @{
-    ViewData["Title"] = "Eliminar Cita";
+    ViewData["Title"] = "Consultar citas";
 }
 
 <div class="row">
     <div class="col-6 offset-3">
         <div class="card">
             <div class="card-header bg-danger text-light ">
-                <h4>¿Estás seguro que quieres eliminar la cita?</h4>
+                <h4>Consultando cita</h4>
             </div>
             <div class="card-body bg-light text-dark">
 
-                <form method="post" asp-controller="Appoiment" asp-action="DeletePost">
+                <p>Selecciona las pruebas correspondientes</p>
 
-                    <input type="hidden" asp-for="Id" />
+                <form method="post" asp-controller="Appoiment" asp-action="DeleteMultiple">
+                    <div class="dropdown">
+                        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Seleccionar citas
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (LabTestViewModel test in ViewBag.LabTests)
+                            {
+                                <li class="dropdown-item">
+                                    <input type="checkbox" asp-for="LabTests" value="@test.Id" class="form-check-input" id="appointment-@test.Id">
+                                    <label for="appointment-@test.Id">@test.Name</label>
+                                </li>
+                            }
+                        </ul>
+                    </div>
 
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                    <a asp-controller="Appoiment" asp-action="Index" class="btn btn-warning">Cancelar</a>
+                    <button type="submit" class="btn btn-danger mt-2">Eliminar seleccionados</button>
+                    <a asp-controller="Appoiment" asp-action="Index" class="btn btn-warning mt-2">Cancelar</a>
                 </form>
+
             </div>
         </div>
     </div>

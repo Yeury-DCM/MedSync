@@ -7,14 +7,13 @@ namespace MedSync.Core.Domain.Entities
     {
         public string Description { get; set; }
         public int PatientId { get; set; } //FK
-        public int LabTestId { get; set; }
         public Status Status { get; set; }
 
         public int DoctorOfficeId { get; set; }
 
         //Navegation properties
         public Patient Patient { get; set; }
-        public LabTest LabTest { get; set; }
+        public ICollection<LabTest> LabTests { get; set; }
         public DoctorOffice DoctorOffice { get; set; }
 
     }
