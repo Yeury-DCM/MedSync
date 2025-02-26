@@ -34,6 +34,7 @@ namespace MedSync.Presentation.Web.Controllers
 
         public async Task <IActionResult> Add()
         {
+
             UserViewModel user = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
 
             return View("SaveLabResult");

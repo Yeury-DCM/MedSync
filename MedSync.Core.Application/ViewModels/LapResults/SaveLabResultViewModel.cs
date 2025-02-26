@@ -14,6 +14,7 @@ namespace MedSync.Core.Application.ViewModels.LapResults
         [Required(ErrorMessage = "La hora es requerida")]
         public int PatientId { get; set; }
         public int LabTestId { get; set; }
+        public int DoctorOfficeId { get; set; }
         public Status Status { get; set; }
 
     }

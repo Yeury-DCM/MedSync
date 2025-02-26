@@ -55,7 +55,7 @@ namespace MedSync.Infraestructure.Persistence.Repositories
             return false;
         }
 
-        public async Task<ICollection<T>> GetAllAsync()
+        public virtual async Task<ICollection<T>> GetAllAsync()
         {
             return await _entities.ToListAsync();   
         }

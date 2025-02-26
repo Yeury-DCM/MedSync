@@ -23,7 +23,7 @@ namespace MedSync.Core.Application.ViewModels.Appoiments
         [Required(ErrorMessage = "La hora es requerida")]
         public TimeSpan Time { get; set; }
         public int DoctorOfficeId { get; set; }
-        
-        public ICollection<LabTestViewModel> LabTests { get; set; }
+        public List<LabTestViewModel> LabTests {  get; set; }
+        public List<int> LabTestIds { get; set; }
     }
 }

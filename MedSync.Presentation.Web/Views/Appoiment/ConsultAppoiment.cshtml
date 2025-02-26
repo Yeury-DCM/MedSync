@@ -1,0 +1,48 @@
+﻿@model MedSync.Core.Application.ViewModels.Appoiments.SaveAppoimentViewModel
+@using MedSync.Core.Application.ViewModels.LabTests
+@{
+    ViewData["Title"] = "Consulta cita";
+}
+
+<div class="row">
+    <div class=" container col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-info text-light ">
+                <h4>Consultando cita</h4>
+            </div>
+
+            <div class="card-body bg-light text-dark d-flex flex-column align-items-center">
+                <form method="post" asp-controller="Appoiment" asp-action="ConsultAppoiment">
+                    <div class="dropdown mb-3">
+                        <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Selecciona las pruebas correspondientes
+                        </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (LabTestViewModel test in ViewBag.LabTests)
+                            {
+                                <li class="dropdown-item">
+                                    <input type="checkbox" name="LabTestIds" value="@test.Id" class="form-check-input" id="appointment-@test.Id">
+                                    <label for="appointment-@test.Id">@test.Name</label>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="PatientId" />
+                    <input type="hidden" asp-for="DoctorId" />
+                    <input type="hidden" asp-for="DoctorOfficeId" />
+
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="submit" class="btn btn-success">Realizar pruebas</button>
+                        <a asp-controller="Appoiment" asp-action="Index" class="btn btn-warning">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

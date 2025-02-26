@@ -7,6 +7,7 @@ namespace MedSync.Core.Application.Interfaces.Services
     public interface IAppoimentService : IGenericService<AppoimentViewModel,SaveAppoimentViewModel, Appoiment>, IGetAllByDoctorOffice<AppoimentViewModel>
     {
         Task<List<AppoimentViewModel>> GetFullAppoiments();
+        Task ConsultAppoiment(SaveAppoimentViewModel saveAppoimentViewModel);
 
     }
 }

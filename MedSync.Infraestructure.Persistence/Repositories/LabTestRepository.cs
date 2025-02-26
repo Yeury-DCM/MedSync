@@ -17,6 +17,8 @@ namespace MedSync.Infraestructure.Persistence.Repositories
             _context = context;
             _logger = logger;
         }
+
+
         
     }
 }

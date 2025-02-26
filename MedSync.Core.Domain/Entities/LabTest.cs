@@ -9,8 +9,10 @@ namespace MedSync.Core.Domain.Entities
 
         public int DoctorOfficeId { get; set; } //FK
 
+        public int? LabResultId { get; set; }
+
         //Navegation Property
-        public ICollection<LabResult> LabResults { get; set; }
+        public LabResult LabResult { get; set; }
         public DoctorOffice DoctorOffice { get; set; }
         public Appoiment? Appoiment { get; set; }
     }

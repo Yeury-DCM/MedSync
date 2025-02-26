@@ -6,23 +6,27 @@ using MedSync.Core.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MedSync.Core.Application.ViewModels.Appoiments;
 using MedSync.Core.Application.Interfaces.Repositories;
+using MedSync.Core.Domain.Entities;
 namespace MedSync.Presentation.Web.Controllers
 {
     public class AppoimentController : Controller
     {
         private readonly IAppoimentService _appoimentService;
+        private readonly ILabTestService _labTestService;
+
         private readonly IDoctorService _doctorService;
         private readonly IPatientService _patientService;
         private readonly IHttpContextAccessor _httpContext;
         
 
 
-        public AppoimentController(IAppoimentService userService, IHttpContextAccessor contextAccessor, IDoctorService doctorService, IPatientService patientService)
+        public AppoimentController(IAppoimentService userService, IHttpContextAccessor contextAccessor, IDoctorService doctorService, IPatientService patientService, ILabTestService labTestService)
         {
             _appoimentService = userService;
             _httpContext = contextAccessor;
             _doctorService = doctorService;
             _patientService = patientService;
+            _labTestService = labTestService;
         }
 
         public async Task<IActionResult> Index()
@@ -47,11 +51,15 @@ namespace MedSync.Presentation.Web.Controllers
         {
             ModelState.Remove("DoctorOfficeId");
             ModelState.Remove("LabTests");
+            ModelState.Remove("LabTestIds");
             ModelState.Remove("Id");
 
 
             if (!ModelState.IsValid)
-            {                    
+            {
+                UserViewModel user = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
+                ViewBag.Doctors = await _doctorService.GetAllByDoctorOfficeAsync(user.DoctorOfficeId);
+                ViewBag.Patients = await _patientService.GetAllByDoctorOfficeAsync(user.DoctorOfficeId);
                 return View("saveAppoiment", saveAppoiment);
             }
 
@@ -61,12 +69,27 @@ namespace MedSync.Presentation.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> ConsultAppoiment(int id)
         {
 
-            SaveAppoimentViewModel saveUserViewModel = await _appoimentService.GetByIdSaveViewModel(id);
+            SaveAppoimentViewModel saveAppoimentViewModel = await _appoimentService.GetByIdSaveViewModel(id);
+            int doctorOfficeId = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
+            ViewBag.LabTests = await _labTestService.GetAllByDoctorOfficeAsync(doctorOfficeId);
 
-            return View("SaveUser", saveUserViewModel);
+            return View(saveAppoimentViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConsultAppoiment(SaveAppoimentViewModel saveAppoimentViewModel)
+        {
+
+    
+             int doctorOfficeId = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
+             
+            await _appoimentService.ConsultAppoiment(saveAppoimentViewModel);
+
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

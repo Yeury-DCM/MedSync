@@ -49,15 +49,15 @@
                                     <div class="btn-group btn-group-sm d-flex">
                                         @if(appoiment.Status == Status.PendingConsultation)
                                         {
-                                            <a asp-controller="Appoiment" asp-action="DelCete" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar</a>
+                                            <a asp-controller="Appoiment" asp-action="ConsultAppoiment" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar cita</a>
                                         }
                                         else if (appoiment.Status == Status.PendigResult)
                                         {
-                                            <a asp-controller="Appoiment" asp-action="DelCete" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar resultado</a>
+                                            <a asp-controller="Appoiment" asp-action="ConsultAppoiment" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar </a>
                                         }
                                         else if (appoiment.Status == Status.Completed)
                                         {
-                                            <a asp-controller="Appoiment" asp-action="DelCete" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Ver resultados</a>
+                                            <a asp-controller="Appoiment" asp-action="ConsultAppoiment" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Ver resultados</a>
                                         }
                                     </div>
                                 </td>

@@ -18,13 +18,25 @@ namespace MedSync.Infraestructure.Persistence.Repositories
             _logger = logger;
         }
 
-        public async Task<List<Appoiment>> GetFullAppoiments()
+        public override async Task<ICollection<Appoiment>> GetAllAsync()
         {
 
             return await _context.Set<Appoiment>()
                  .Include(a => a.Doctor)
                  .Include(a => a.Patient)
+                 .Include(a => a.LabTests)
                  .ToListAsync();
+        }
+
+        public override async Task<Appoiment?> GetByIdAsync(int id)
+        {
+            return await _context.Set<Appoiment>()
+                 .Include(a => a.Doctor)
+                 .Include(a => a.Patient)
+                 .Include(a => a.LabTests)
+                 .FirstOrDefaultAsync(a => a.Id == id);
+
+
         }
     }
 

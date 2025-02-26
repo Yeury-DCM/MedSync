@@ -6,7 +6,7 @@ namespace MedSync.Core.Application.Interfaces.Repositories
 {
     public interface IAppoimentRepository : IGenericRepository<Appoiment>
     {
-        public Task<List<Appoiment>> GetFullAppoiments();
+
     }
 
 }

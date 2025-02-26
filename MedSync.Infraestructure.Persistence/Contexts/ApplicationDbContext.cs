@@ -85,17 +85,19 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<LabTest>().Property(lt => lt.CreatedOn).IsRequired();
             modelBuilder.Entity<LabTest>().Property(lt => lt.LastModified).IsRequired(false);
             modelBuilder.Entity<LabTest>().Property(lt => lt.LastModifiedBy).IsRequired(false);
+            modelBuilder.Entity<LabTest>().Property(lt => lt.LabResultId).IsRequired(false);
             #endregion
 
             #region LabResult
             modelBuilder.Entity<LabResult>().Property(lr => lr.PatientId).IsRequired();
-            modelBuilder.Entity<LabResult>().Property(lr => lr.Description).IsRequired();
+            modelBuilder.Entity<LabResult>().Property(lr => lr.Description).IsRequired(false);
             modelBuilder.Entity<LabResult>().Property(lr => lr.Status).IsRequired();
             modelBuilder.Entity<LabResult>().Property(lr => lr.IsActive).IsRequired();
             modelBuilder.Entity<LabResult>().Property(lr => lr.CreatedBy).IsRequired();
             modelBuilder.Entity<LabResult>().Property(lr => lr.CreatedOn).IsRequired();
             modelBuilder.Entity<LabResult>().Property(lr => lr.LastModified).IsRequired(false);
             modelBuilder.Entity<LabResult>().Property(lr => lr.LastModifiedBy).IsRequired(false);
+            modelBuilder.Entity<LabResult>().Property(lr => lr.LabTestId).IsRequired(false);
             #endregion
 
             #region Patient
@@ -148,11 +150,12 @@ namespace MedSync.Infraestructure.Persistence.Contexts
                 .HasForeignKey(pa => pa.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Mant LabTests as many results
+            // one LabTests has one results
             modelBuilder.Entity<LabResult>()
-                .HasMany(lr => lr.LabTests)
-                .WithMany(lt => lt.LabResults)
-                .UsingEntity("LabTestLabResult");
+                .HasOne(lr => lr.LabTest)
+                .WithOne(lt => lt.LabResult)
+                .HasForeignKey<LabTest>(lt => lt.LabResultId)
+                .IsRequired(false);
 
             //Appoiment to many tests
             modelBuilder.Entity<Appoiment>()
