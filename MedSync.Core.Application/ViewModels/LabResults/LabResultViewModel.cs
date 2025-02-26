@@ -1,20 +1,20 @@
 ﻿
-using MedSync.Core.Application.Interfaces.ViewModels;
+using MedSync.Core.Application.ViewModels.LabTests;
+using MedSync.Core.Application.ViewModels.Patients;
 using MedSync.Core.Domain.Entities;
 using MedSync.Core.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace MedSync.Core.Application.ViewModels.LapResults
+namespace MedSync.Core.Application.ViewModels.LabResult
 {
-    public class SaveLabResultViewModel : IHaveId
+    public class LabResultViewModel
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "La descripción es requerida")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "La hora es requerida")]
         public int PatientId { get; set; }
         public int LabTestId { get; set; }
-        public int DoctorOfficeId { get; set; }
+        public PatientViewModel Patient { get; set; }
+        public LabTestViewModel LabTest { get; set; }
         public Status Status { get; set; }
 
     }

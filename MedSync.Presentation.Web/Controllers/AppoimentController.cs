@@ -13,20 +13,21 @@ namespace MedSync.Presentation.Web.Controllers
     {
         private readonly IAppoimentService _appoimentService;
         private readonly ILabTestService _labTestService;
-
+        private readonly ILabResultService _labResultService;
         private readonly IDoctorService _doctorService;
         private readonly IPatientService _patientService;
         private readonly IHttpContextAccessor _httpContext;
         
 
 
-        public AppoimentController(IAppoimentService userService, IHttpContextAccessor contextAccessor, IDoctorService doctorService, IPatientService patientService, ILabTestService labTestService)
+        public AppoimentController(IAppoimentService userService, IHttpContextAccessor contextAccessor, IDoctorService doctorService, IPatientService patientService, ILabTestService labTestService, ILabResultService labResultService)
         {
             _appoimentService = userService;
             _httpContext = contextAccessor;
             _doctorService = doctorService;
             _patientService = patientService;
             _labTestService = labTestService;
+            _labResultService = labResultService;
         }
 
         public async Task<IActionResult> Index()
@@ -84,13 +85,29 @@ namespace MedSync.Presentation.Web.Controllers
         {
 
     
-             int doctorOfficeId = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
+            int doctorOfficeId = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
              
             await _appoimentService.ConsultAppoiment(saveAppoimentViewModel);
 
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> ConsultResults(int Id)
+        {
+            
+            return View(await _labResultService.GetAllByAppoimentId(Id));
+        }
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> ConsultResults()
+        //{
+
+        //    return View(_labResultService.GetAllByAppoimentId(appoimentId));
+        //}
+
+
 
         [HttpPost]
         public async Task<IActionResult> Edit(SaveAppoimentViewModel saveAppoiment)

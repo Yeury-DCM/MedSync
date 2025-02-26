@@ -6,7 +6,7 @@ using MedSync.Core.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MedSync.Core.Application.ViewModels.Appoiments;
 using MedSync.Core.Application.Interfaces.Repositories;
-using MedSync.Core.Application.ViewModels.LapResults;
+using MedSync.Core.Application.ViewModels.LabResult;
 namespace MedSync.Presentation.Web.Controllers
 {
     public class LabResultController : Controller
@@ -32,67 +32,18 @@ namespace MedSync.Presentation.Web.Controllers
             return View(await _labResultService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
         }
 
-        public async Task <IActionResult> Add()
+
+        public async Task<IActionResult> ReportResult(int id)
         {
-
-            UserViewModel user = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
-
-            return View("SaveLabResult");
+            SaveLabResultViewModel saveLabResultViewModel = await _labResultService.GetByIdSaveViewModel(id);
+            return View(saveLabResultViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(SaveLabResultViewModel saveLabResult)
-        {
-            ModelState.Remove("DoctorOfficeId");
-            ModelState.Remove("LabTests");
-            ModelState.Remove("Id");
-
-
-            if (!ModelState.IsValid)
-            {                    
-                return View("saveLabResult", _labResultService);
-            }
-
-          //  saveLabResult = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
-            await _labResultService.Add(saveLabResult);
-
-            return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> ReportResult(SaveLabResultViewModel saveLabResultViewModel)
         {
 
-           SaveLabResultViewModel saveLabResultViewModel = await _labResultService.GetByIdSaveViewModel(id);
-
-            return View("SaveLabREsult", saveLabResultViewModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(SaveLabResultViewModel saveLabResult)
-        {
-      
-            if (!ModelState.IsValid)
-            {
-
-                return View("SaveLabResult", saveLabResult);
-            }
-
-            await _labResultService.Update(saveLabResult);
-
-            return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> Delete(int id)
-        {
-            LabResultViewModel? labResultViewModel = await _labResultService.GetById(id);
-
-            return View("DeleteAppoiment", labResultViewModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeletePost(int id)
-        {
-            await _labResultService.Delete(id);
+            await _labResultService.ReportResult(saveLabResultViewModel);
             return RedirectToAction("Index");
         }
     }

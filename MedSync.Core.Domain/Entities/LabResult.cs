@@ -10,6 +10,7 @@ namespace MedSync.Core.Domain.Entities
         public Status Status { get; set; }
         public int? LabTestId { get; set; } 
         public int DoctorOfficeId { get; set; }
+        public int AppoimentId { get; set; }
 
         //Navegation properties
         public Patient Patient { get; set; }

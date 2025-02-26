@@ -6,7 +6,7 @@ using MedSync.Core.Domain.Enums;
 using MedSync.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using MedSync.Core.Application.ViewModels.LapResults;
+using MedSync.Core.Application.ViewModels.LabResult;
 
 namespace MedSync.Core.Application.Services
 {
@@ -31,43 +31,45 @@ namespace MedSync.Core.Application.Services
         {
             Appoiment? appoiment = await _repository.GetByIdAsync(saveAppoimentViewModel.Id);
 
+          
             foreach (int labTestId in saveAppoimentViewModel.LabTestIds)
             {
-                appoiment?.LabTests.Add( await _labTestRepository.GetByIdAsync(labTestId));
+                appoiment?.LabTests.Add(await _labTestRepository.GetByIdAsync(labTestId));
 
                 SaveLabResultViewModel saveLabResultViewModel = new()
                 {
                     LabTestId = labTestId,
                     PatientId = saveAppoimentViewModel.PatientId,
                     Status = Status.Pending,
-                    DoctorOfficeId = saveAppoimentViewModel.DoctorOfficeId
+                    DoctorOfficeId = saveAppoimentViewModel.DoctorOfficeId,
+                    AppoimentId = saveAppoimentViewModel.Id
 
                 };
 
-               await  _labResultService.Add(saveLabResultViewModel);
+                await _labResultService.Add(saveLabResultViewModel);
 
             }
 
             appoiment!.Status = Status.PendigResult;
 
-            _repository.UpdateAsync(appoiment);
+            await _repository.UpdateAsync(appoiment);
         }
 
         public async Task<List<AppoimentViewModel>> GetAllByDoctorOfficeAsync(int doctorOfficeId)
         {
-            {
-                List<Appoiment> appoimentsByDoctorOffice = ((List<Appoiment>)await _repository.GetAllAsync())
-                                                 .Where(d => d.DoctorOfficeId == doctorOfficeId).ToList();
 
-                List<AppoimentViewModel> appoimentsViewModel = _mapper.Map<List<AppoimentViewModel>>(appoimentsByDoctorOffice);
+            List<Appoiment> appoimentsByDoctorOffice = ((List<Appoiment>)await _repository.GetAllAsync())
+                                             .Where(d => d.DoctorOfficeId == doctorOfficeId).ToList();
 
-                return appoimentsViewModel;
-            }
+            List<AppoimentViewModel> appoimentsViewModel = _mapper.Map<List<AppoimentViewModel>>(appoimentsByDoctorOffice);
+
+            return appoimentsViewModel;
+
         }
 
         public async Task<List<AppoimentViewModel>> GetFullAppoiments()
         {
-            List<Appoiment> fullAppoiments = (List<Appoiment>) await _repository.GetAllAsync();
+            List<Appoiment> fullAppoiments = (List<Appoiment>)await _repository.GetAllAsync();
 
             List<AppoimentViewModel> fullAppoimentsViewModel = _mapper.Map<List<AppoimentViewModel>>(fullAppoiments);
 
@@ -75,7 +77,7 @@ namespace MedSync.Core.Application.Services
 
         }
 
-        
+
     }
 }
 

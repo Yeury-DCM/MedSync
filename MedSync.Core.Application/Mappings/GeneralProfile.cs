@@ -4,7 +4,7 @@ using MedSync.Core.Application.ViewModels.Appoiments;
 using MedSync.Core.Application.ViewModels.DoctorOffices;
 using MedSync.Core.Application.ViewModels.Doctors;
 using MedSync.Core.Application.ViewModels.LabTests;
-using MedSync.Core.Application.ViewModels.LapResults;
+using MedSync.Core.Application.ViewModels.LabResult;
 using MedSync.Core.Application.ViewModels.Patients;
 using MedSync.Core.Application.ViewModels.Users;
 using MedSync.Core.Domain.Entities;
@@ -99,8 +99,7 @@ namespace MedSync.Core.Application.Mappings
                 .ForMember(dest => dest.LastModified, otp => otp.Ignore())
                 .ForMember(dest => dest.LastModifiedBy, otp => otp.Ignore())
                 .ForMember(dest => dest.DoctorOffice, otp => otp.Ignore())
-                .ForMember(dest => dest.Appoiment, otp => otp.Ignore())
-                .ForMember(dest => dest.AppoimentId, otp => otp.Ignore())
+                .ForMember(dest => dest.Appoiments, otp => otp.Ignore())
                 .ForMember(dest => dest.IsActive, otp => otp.Ignore());
 
 

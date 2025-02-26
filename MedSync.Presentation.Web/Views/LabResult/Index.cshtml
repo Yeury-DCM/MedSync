@@ -1,21 +1,17 @@
-﻿@model List<MedSync.Core.Application.ViewModels.LapResults.LabResultViewModel>
-@using MedSync.Core.Application.ViewModels.LapResults
+﻿@model List<MedSync.Core.Application.ViewModels.LabResult.LabResultViewModel>
+@using MedSync.Core.Application.ViewModels.LabResult
+@using MedSync.Core.Domain.Enums
 @{
-    ViewData["Title"] = "Mantenimiento de pruebas de citas";
+    ViewData["Title"] = "Mantenimiento de resultados";
 }
 
 <div class="container-fluid px-0">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <a asp-controller="Appoiment" asp-action="Add" class="btn btn-success"> Agregar Nueva Prrueba de Laboratorio</a>
-    </div>
 
     <div class="row">
 
         @if (Model == null || Model.Count == 0)
         {
-            <h2 class="text-dark">No se encontraron citas</h2>
+            <h2 class="text-dark">No se encontraron resultados</h2>
         }
         else
         {
@@ -25,28 +21,31 @@
                         <tr>
                             <th scope="col">Paciente</th>
                             <th scope="col">Cedula</th>
-                            <th scope="col">Prueba</th>                     
+                            <th scope="col">Prueba</th>
 
                         </tr>
                     </thead>
                     <tbody>
-@* 
+
                         @foreach (LabResultViewModel labResult in Model)
                         {
-                            <tr>
-                                <td>@labResult.Patient.Name @labResult.Patient.LastName</td>
-                                <td>@labResult.Patient.IdentificationNumber</td>
-                                <td>@labResult.LabTest.Name</td>
-                                                  
-                                <td>
-                                    <div class="btn-group btn-group-sm d-flex">
-                                        <a asp-controller="Appoiment" sp-action="Edit" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-warning">Editar</a>
-                                        <a asp-controller="Appoiment" asp-action="Delete" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-danger">Eliminar</a>
-                                    </div>
-                                </td>
+                            @if(labResult.Status != Status.Completed)
+                            {
+                                <tr>
+                                    <td>@labResult.Patient.Name @labResult.Patient.LastName</td>
+                                    <td>@labResult.Patient.IdentificationNumber</td>
+                                    <td>@labResult.LabTest.Name</td>
 
-                            </tr>
-                        } *@
+                                    <td>
+
+                                        <a asp-controller="LabResult" asp-action="ReportResult" asp-route-id="@labResult.Id" type="button" class="btn btn-sm btn-outline-info">Finalizar Prueba</a>
+
+                                    </td>
+
+                                </tr>
+                            }
+                           
+                        }
 
                     </tbody>
                 </table>

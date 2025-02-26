@@ -1,6 +1,6 @@
 ﻿
 using MedSync.Core.Application.ViewModels.Appoiments;
-using MedSync.Core.Application.ViewModels.LapResults;
+using MedSync.Core.Application.ViewModels.LabResult;
 using MedSync.Core.Domain.Entities;
 
 namespace MedSync.Core.Application.ViewModels.LabTests

@@ -3,10 +3,11 @@
 using MedSync.Core.Application.Interfaces.Repositories;
 using MedSync.Core.Domain.Entities;
 using MedSync.Infraestructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MedSync.Infraestructure.Persistence.Repositories
-{   
+{
     public class LabResultRepository : GenericRepository<LabResult>, ILabResultRepository
     {
 
@@ -18,6 +19,35 @@ namespace MedSync.Infraestructure.Persistence.Repositories
             _context = context;
             _logger = logger;
         }
-        
+
+        public override async Task<ICollection<LabResult>> GetAllAsync()
+        {
+
+            return await _context.Set<LabResult>()
+                 .Include(l => l.Patient)
+                 .Include(l => l.LabTest)
+                 .ToListAsync();
+        }
+
+        public override async Task<LabResult?> GetByIdAsync(int id)
+        {
+            return await _context.Set<LabResult>()
+                 .Include(l => l.Patient)
+                 .Include(l => l.LabTest)
+                 .FirstOrDefaultAsync(l => l.Id == id);
+
+
+        }
+        public async Task<List<LabResult>> GetAllByAppoimentId(int appoimentId)
+        {
+            List<LabResult> List1 = await _context.Set<LabResult>()
+                .Include(l => l.Patient) // Incluir la relación con Patient
+                .Include(l => l.LabTest)
+                .ThenInclude(lt => lt.Appoiments)// Incluir la relación con LabTest
+                .ToListAsync();
+
+            List<LabResult> List2 = List1.Where(l => l.LabTest.Appoiments.Any(a => a.Id == appoimentId)).ToList();
+            return List2;
+        }
     }
-}
+    }

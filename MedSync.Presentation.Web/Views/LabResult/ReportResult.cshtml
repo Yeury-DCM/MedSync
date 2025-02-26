@@ -1,0 +1,40 @@
+﻿@model MedSync.Core.Application.ViewModels.LabResult.SaveLabResultViewModel;
+@using MedSync.Core.Application.ViewModels.LabTests
+@{
+    ViewData["Title"] = "Consulta cita";
+}
+
+<div class="row">
+    <div class=" container col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-info text-light ">
+                <h4>Reportando resultado</h4>
+            </div>
+
+            <div class="card-body bg-light text-dark d-flex flex-column align-items-center">
+                <form method="post" asp-controller="LabResult" asp-action="ReportResult">
+                    
+                    <label asp-for ="Description">Resultado</label>
+
+                    <input type = "text" asp-for = "Description" class="form-control form-text"/>
+
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="PatientId"/>
+                    <input type="hidden" asp-for="DoctorOfficeId" />
+                    <input type="hidden" asp-for="LabTestId" />
+                    <input type="hidden" asp-for="DoctorOfficeId"/>
+
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <button type="submit" class="btn btn-success">Reportar Resultado</button>
+                        <a asp-controller="LabResult" asp-action="Index" class="btn btn-warning">Cancelar</a>
+                    </div>
+                </form>
+
+
+            </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

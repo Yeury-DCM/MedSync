@@ -44,7 +44,8 @@
                                 <td>@appoiment.Date.ToShortDateString()</td>
                                 <td>@appoiment.Time</td>
                                 <td>@appoiment.Cause</td>
-                                <td>@appoiment.Status</td>                             
+
+                                <td>@appoiment.Status.GetDisplayName()</td>                             
                                 <td>
                                     <div class="btn-group btn-group-sm d-flex">
                                         @if(appoiment.Status == Status.PendingConsultation)
@@ -53,7 +54,7 @@
                                         }
                                         else if (appoiment.Status == Status.PendigResult)
                                         {
-                                            <a asp-controller="Appoiment" asp-action="ConsultAppoiment" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar </a>
+                                            <a asp-controller="Appoiment" asp-action="ConsultResults" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar resultados </a>
                                         }
                                         else if (appoiment.Status == Status.Completed)
                                         {

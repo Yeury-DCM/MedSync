@@ -85,7 +85,7 @@ namespace MedSync.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<LabTest>().Property(lt => lt.CreatedOn).IsRequired();
             modelBuilder.Entity<LabTest>().Property(lt => lt.LastModified).IsRequired(false);
             modelBuilder.Entity<LabTest>().Property(lt => lt.LastModifiedBy).IsRequired(false);
-            modelBuilder.Entity<LabTest>().Property(lt => lt.LabResultId).IsRequired(false);
+  
             #endregion
 
             #region LabResult
@@ -150,20 +150,19 @@ namespace MedSync.Infraestructure.Persistence.Contexts
                 .HasForeignKey(pa => pa.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // one LabTests has one results
+            // one LabTests has many results
             modelBuilder.Entity<LabResult>()
                 .HasOne(lr => lr.LabTest)
-                .WithOne(lt => lt.LabResult)
-                .HasForeignKey<LabTest>(lt => lt.LabResultId)
-                .IsRequired(false);
+                .WithMany(lt => lt.LabResults)
+                .HasForeignKey(lr => lr.LabTestId);
+
 
             //Appoiment to many tests
             modelBuilder.Entity<Appoiment>()
                 .HasMany(ap => ap.LabTests)
-                .WithOne(lt => lt.Appoiment)
-                .HasForeignKey(lt => lt.AppoimentId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Restrict);
+                .WithMany(lt => lt.Appoiments)
+                .UsingEntity("AppoimentLabTest");
+                
 
 
             #region Relationships with DoctorOffice

@@ -25,5 +25,6 @@ namespace MedSync.Core.Application.ViewModels.Appoiments
         public int DoctorOfficeId { get; set; }
         public List<LabTestViewModel> LabTests {  get; set; }
         public List<int> LabTestIds { get; set; }
+        
     }
 }

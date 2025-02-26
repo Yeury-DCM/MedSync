@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MedSync.Core.Application.Interfaces.Repositories;
 using MedSync.Core.Application.Interfaces.Services;
-using MedSync.Core.Application.ViewModels.LapResults;
+using MedSync.Core.Application.ViewModels.Appoiments;
+using MedSync.Core.Application.ViewModels.LabResult;
 using MedSync.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,34 @@ namespace MedSync.Core.Application.Services
             _repository = repository;
         }
 
-        public Task<List<Appoiment>> GetAllByDoctorOfficeAsync(int doctorOfficeId)
+        public async Task<List<LabResultViewModel>> GetAllByDoctorOfficeAsync(int doctorOfficeId)
         {
-            throw new NotImplementedException();
+            List<LabResult> labResultsByDoctorOffice = ((List<LabResult>) await _repository.GetAllAsync())
+                                             .Where(d => d.DoctorOfficeId == doctorOfficeId).ToList();
+
+            List<LabResultViewModel> labResultViewModels = _mapper.Map<List<LabResultViewModel>>(labResultsByDoctorOffice);
+
+            return labResultViewModels;
         }
+
+        public async Task ReportResult(SaveLabResultViewModel result)
+        {
+           
+            result.Status = Domain.Enums.Status.Completed;
+            await base.Update(result);
+        }
+
+        public async Task<List<LabResultViewModel>> GetAllByAppoimentId(int appoimentId)
+        {
+
+            List<LabResult> labResultsByAppoimentId= await _repository.GetAllByAppoimentId(appoimentId);
+
+             
+            List<LabResultViewModel> labResultViewModels = _mapper.Map<List<LabResultViewModel>>(labResultsByAppoimentId);
+
+            return labResultViewModels;
+        }
+
+    
     }
 }
