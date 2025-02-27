@@ -83,9 +83,16 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ConsultAppoiment(SaveAppoimentViewModel saveAppoimentViewModel)
         {
-
-    
             int doctorOfficeId = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
+
+            ModelState.Remove("LabTests");
+            ModelState.Remove("Cause");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.LabTests = await _labTestService.GetAllByDoctorOfficeAsync(doctorOfficeId);
+                return View("ConsultAppoiment", saveAppoimentViewModel);
+            }
+
              
             await _appoimentService.ConsultAppoiment(saveAppoimentViewModel);
 

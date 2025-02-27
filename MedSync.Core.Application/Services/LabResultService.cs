@@ -51,6 +51,11 @@ namespace MedSync.Core.Application.Services
             return labResultViewModels;
         }
 
-    
+        public  async Task<List<LabResultViewModel>> GetAllByIdentificationNumber(List<LabResultViewModel> labResultsViewModels, string identificationNumber)
+        {
+            List<LabResultViewModel> labResultsFiltered = labResultsViewModels.Where(lr => lr.Patient.IdentificationNumber.Contains(identificationNumber)).ToList();
+
+            return labResultsFiltered;
+        }
     }
 }

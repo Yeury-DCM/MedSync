@@ -11,7 +11,11 @@ namespace MedSync.Core.Domain.Enums
 
         [Display(Name = "Pendiente de resultado")]
         PendigResult,
+
+        [Display(Name = "Pendiente")]
         Pending,
+        
+        [Display(Name = "Completado")]
         Completed
     }
 

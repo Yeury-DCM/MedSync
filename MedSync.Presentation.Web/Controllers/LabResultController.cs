@@ -24,10 +24,18 @@ namespace MedSync.Presentation.Web.Controllers
             _labResultService = labResultService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string IdentificationNumber)
 
         {
             UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
+            var labResultViewModels = await _labResultService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId);
+
+            if (!string.IsNullOrWhiteSpace(IdentificationNumber))
+            {
+                return View(await _labResultService.GetAllByIdentificationNumber(labResultViewModels, IdentificationNumber));
+            }
+
+           
 
             return View(await _labResultService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
         }

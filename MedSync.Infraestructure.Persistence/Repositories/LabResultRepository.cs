@@ -47,5 +47,16 @@ namespace MedSync.Infraestructure.Persistence.Repositories
                 .Where(l => l.AppoimentId == appoimentId)
                 .ToListAsync();
         }
+
+        public async Task<List<LabResult>> GetAllByIdentificationNumber(string IdentificationNumber)
+        {
+            return await _context.Set<LabResult>()
+          .Include(l => l.Patient) // Incluir la relación con Patient
+          .Include(l => l.LabTest)
+          .ThenInclude(lt => lt.Appoiments)// Incluir la relación con LabTest
+          .Where(l => l.Patient.IdentificationNumber.Contains(IdentificationNumber))
+          .ToListAsync();
+
+        }
     }
     }

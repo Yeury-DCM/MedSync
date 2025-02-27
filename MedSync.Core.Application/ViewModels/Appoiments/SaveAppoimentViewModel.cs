@@ -24,6 +24,7 @@ namespace MedSync.Core.Application.ViewModels.Appoiments
         public TimeSpan Time { get; set; }
         public int DoctorOfficeId { get; set; }
         public List<LabTestViewModel> LabTests {  get; set; }
+        [Required(ErrorMessage = "Las pruebas son requeridas")]
         public List<int> LabTestIds { get; set; }
         
     }

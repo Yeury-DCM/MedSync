@@ -5,5 +5,7 @@ namespace MedSync.Core.Application.Interfaces.Repositories
     public interface ILabResultRepository : IGenericRepository<LabResult>
     {
         Task<List<LabResult>> GetAllByAppoimentId(int AppoimentId);
+        Task<List<LabResult>> GetAllByIdentificationNumber(string IdentificationNumber);
+
     }
 }

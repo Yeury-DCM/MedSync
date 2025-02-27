@@ -8,6 +8,7 @@ namespace MedSync.Core.Application.Interfaces.Services
     {
         Task ReportResult(SaveLabResultViewModel result);
         Task<List<LabResultViewModel>> GetAllByAppoimentId(int appoimentId);
+        Task<List<LabResultViewModel>> GetAllByIdentificationNumber(List<LabResultViewModel> labResultViewModels, string identificationNumber);
 
     }
 }
