@@ -93,19 +93,19 @@ namespace MedSync.Presentation.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> ConsultResults(int Id)
+        public async Task<IActionResult> ConsultResults(int id)
         {
-            
-            return View(await _labResultService.GetAllByAppoimentId(Id));
+            ViewBag.AppoimentId = id;
+            return View(await _labResultService.GetAllByAppoimentId(id));
         }
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> ConsultResults()
-        //{
-
-        //    return View(_labResultService.GetAllByAppoimentId(appoimentId));
-        //}
+        [HttpPost]
+        public async Task<IActionResult> FinishAppoiment(int id)
+        {
+            await _appoimentService.FinishAppoiment(id);
+           return RedirectToAction("Index");
+        }
 
 
 
@@ -136,6 +136,11 @@ namespace MedSync.Presentation.Web.Controllers
         {
             await _appoimentService.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> SeeResults(int id)
+        {
+            return View(await _labResultService.GetAllByAppoimentId(id));
         }
     }
 }

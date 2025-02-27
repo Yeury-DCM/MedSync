@@ -30,11 +30,14 @@ namespace MedSync.Infraestructure.Persistence.Repositories
 
         public override async Task<Appoiment?> GetByIdAsync(int id)
         {
-            return await _context.Set<Appoiment>()
+
+            Appoiment? appoiment = await _context.Set<Appoiment>()
                  .Include(a => a.Doctor)
                  .Include(a => a.Patient)
                  .Include(a => a.LabTests)
                  .FirstOrDefaultAsync(a => a.Id == id);
+
+            return appoiment;
 
 
         }

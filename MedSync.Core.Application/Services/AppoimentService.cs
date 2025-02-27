@@ -32,6 +32,7 @@ namespace MedSync.Core.Application.Services
             Appoiment? appoiment = await _repository.GetByIdAsync(saveAppoimentViewModel.Id);
 
           
+
             foreach (int labTestId in saveAppoimentViewModel.LabTestIds)
             {
                 appoiment?.LabTests.Add(await _labTestRepository.GetByIdAsync(labTestId));
@@ -55,6 +56,16 @@ namespace MedSync.Core.Application.Services
             await _repository.UpdateAsync(appoiment);
         }
 
+        public async Task FinishAppoiment(int appoimentId)
+        {
+
+            Appoiment? appoiment =await  _repository.GetByIdAsync(appoimentId);
+            appoiment.Status = Status.Completed;
+
+           await _repository.UpdateAsync(appoiment);
+   
+        }
+
         public async Task<List<AppoimentViewModel>> GetAllByDoctorOfficeAsync(int doctorOfficeId)
         {
 
@@ -76,6 +87,8 @@ namespace MedSync.Core.Application.Services
             return fullAppoimentsViewModel;
 
         }
+
+        
 
 
     }

@@ -9,5 +9,6 @@ namespace MedSync.Core.Application.Interfaces.Services
         Task<List<AppoimentViewModel>> GetFullAppoiments();
         Task ConsultAppoiment(SaveAppoimentViewModel saveAppoimentViewModel);
 
+        Task FinishAppoiment(int appoimentId);
     }
 }

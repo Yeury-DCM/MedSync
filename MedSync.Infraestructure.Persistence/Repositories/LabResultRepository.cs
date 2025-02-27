@@ -40,14 +40,12 @@ namespace MedSync.Infraestructure.Persistence.Repositories
         }
         public async Task<List<LabResult>> GetAllByAppoimentId(int appoimentId)
         {
-            List<LabResult> List1 = await _context.Set<LabResult>()
+            return await _context.Set<LabResult>()
                 .Include(l => l.Patient) // Incluir la relación con Patient
                 .Include(l => l.LabTest)
                 .ThenInclude(lt => lt.Appoiments)// Incluir la relación con LabTest
+                .Where(l => l.AppoimentId == appoimentId)
                 .ToListAsync();
-
-            List<LabResult> List2 = List1.Where(l => l.LabTest.Appoiments.Any(a => a.Id == appoimentId)).ToList();
-            return List2;
         }
     }
     }

@@ -3,14 +3,14 @@
 @using MedSync.Core.Domain.Enums
 
 @{
-    ViewData["Title"] = "Consulta cita";
+    ViewData["Title"] = "Ver resultados";
 }
 
 <div class="row">
     <div class=" container col-6 offset-3">
         <div class="card">
             <div class="card-header bg-info text-light ">
-                <h4>Consultando cita</h4>
+                <h4>Resultados de la cita</h4>
             </div>
 
             <div class="card-body bg-light text-dark d-flex flex-column align-items-center">
@@ -27,7 +27,8 @@
                             <tr>
 
                                 <th scope="col">Prueba de laboratorio</th>
-                                <th scope="col">Estado</th>                          
+                                <th scope="col">Estado</th>
+                                <th scope="col">Resultado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,21 +40,16 @@
 
                                     <td>@labResult.LabTest.Name</td>
                                     <td>@labResult.Status.GetDisplayName()</td>
+                                    <td>@labResult.Description</td>
 
                                 </tr>
-
                             }
 
                         </tbody>
 
                     </table>
 
-
                     <div class="d-flex justify-content-start gap-2">
-                        <form asp-controller="Appoiment" asp-action="FinishAppoiment" method="post">
-                            <input type="hidden" name="id" value="@ViewBag.AppoimentId" />
-                            <button type="submit" class="btn btn-outline-success">Completar cita</button>
-                        </form>
                         <a asp-controller="Appoiment" asp-action="Index" class="btn btn-outline-warning">Cerrar resultados</a>
                     </div>
 
