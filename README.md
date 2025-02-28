@@ -8,14 +8,14 @@ Este es un sistema diseñado para la gestión de pacientes en centros médicos, 
 ### 📌 Inicio de Sesión
 ![Login](https://github.com/user-attachments/assets/10e892be-de29-48e5-898f-6bec4554937f)
 
-### 📌 Gestion de Pacientes
-![Paciente](https://github.com/user-attachments/assets/a98bf82e-ea16-4695-b721-c1e63b0314d7)
-
 ### 📌 Gestion de Doctores
 ![Doctoers](https://github.com/user-attachments/assets/dadc0049-8304-47ea-bdfc-e9d047945be4)
 
 ### 📌 Gestion de Citas Médicas
 ![citas](https://github.com/user-attachments/assets/bb15fae0-ead8-470d-ba33-88112d9d4554)
+
+### 📌 Gestion de Pacientes
+![Paciente](https://github.com/user-attachments/assets/a98bf82e-ea16-4695-b721-c1e63b0314d7)
 
 ### 📌 Resultado de las citas
 ![resultado de la cita](https://github.com/user-attachments/assets/14525c39-8ca9-4f35-83f3-3d8d4371904b)
