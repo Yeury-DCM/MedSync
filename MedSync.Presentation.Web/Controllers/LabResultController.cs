@@ -16,6 +16,7 @@ namespace MedSync.Presentation.Web.Controllers
         private readonly IPatientService _patientService;
         private readonly IHttpContextAccessor _httpContext;
         private readonly ValidateUserSession _validateUserSession;
+        private readonly UserViewModel _userViewModel;
         
 
 
@@ -25,6 +26,7 @@ namespace MedSync.Presentation.Web.Controllers
             _httpContext = contextAccessor;
             _labResultService = labResultService;
             _validateUserSession = validateUserSession;
+         
         }
 
         public async Task<IActionResult> Index(string IdentificationNumber)

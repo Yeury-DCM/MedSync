@@ -13,6 +13,7 @@ namespace MedSync.Presentation.Web.Controllers
         private readonly ILabTestService _labTestService;
         private readonly IHttpContextAccessor _httpContext;
         private readonly ValidateUserSession _validateUserSession;
+        private readonly UserViewModel _userViewModel;
 
 
         public LabTestController(ILabTestService labTestService, IHttpContextAccessor contextAccessor, ValidateUserSession validateUserSession)
@@ -20,6 +21,7 @@ namespace MedSync.Presentation.Web.Controllers
             _labTestService = labTestService;
             _httpContext = contextAccessor;
             _validateUserSession = validateUserSession;
+            _userViewModel = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
         }
 
         public async Task<IActionResult> Index()
@@ -30,9 +32,8 @@ namespace MedSync.Presentation.Web.Controllers
                return RedirectToRoute(new { controller = "Account", action = "Login" });
             }
          
-            UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
 
-            return View(await _labTestService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
+            return View(await _labTestService.GetAllByDoctorOfficeAsync(_userViewModel.DoctorOfficeId));
         }
 
         public IActionResult Add()

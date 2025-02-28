@@ -17,12 +17,15 @@ namespace MedSync.Presentation.Web.Controllers
         private readonly IDoctorService _doctorService;
         private readonly IHttpContextAccessor _httpContext;
         private readonly ValidateUserSession _validateUserSession;
+        private readonly UserViewModel _userViewModel;
 
         public DoctorController(IDoctorService doctorService, IHttpContextAccessor httpContext, ValidateUserSession validateUserSession)
         {
             _doctorService = doctorService;
             _httpContext = httpContext;
             _validateUserSession = validateUserSession;
+            _userViewModel = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
+
         }
 
         public async Task<IActionResult> Index()
@@ -32,9 +35,7 @@ namespace MedSync.Presentation.Web.Controllers
                 return RedirectToRoute(new { controller = "Account", action = "Login" });
             }
 
-            UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
-
-            return View(await _doctorService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
+            return View(await _doctorService.GetAllByDoctorOfficeAsync(_userViewModel.DoctorOfficeId));
         }
 
         public IActionResult Add()

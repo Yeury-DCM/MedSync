@@ -13,12 +13,15 @@ namespace MedSync.Presentation.Web.Controllers
         private readonly IPatientService _patientService;
         private readonly IHttpContextAccessor _httpContext;
         private readonly ValidateUserSession _validateUserSession;
+        private readonly UserViewModel _userViewModel;
 
         public PatientController(IPatientService patientService, IHttpContextAccessor httpContext, ValidateUserSession validateUserSession)
         {
             _patientService = patientService;
             _httpContext = httpContext;
             _validateUserSession = validateUserSession;
+            _userViewModel = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
+
 
         }
 
@@ -30,9 +33,7 @@ namespace MedSync.Presentation.Web.Controllers
             }
 
 
-            UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
-
-            return View(await _patientService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
+            return View(await _patientService.GetAllByDoctorOfficeAsync(_userViewModel.DoctorOfficeId));
         }
 
         public IActionResult Add()
