@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MedSync.Core.Application.ViewModels.Appoiments;
 using MedSync.Core.Application.Interfaces.Repositories;
 using MedSync.Core.Application.ViewModels.LabResult;
+using MedSync.Presentation.Web.Middelware;
 namespace MedSync.Presentation.Web.Controllers
 {
     public class LabResultController : Controller
@@ -14,19 +15,26 @@ namespace MedSync.Presentation.Web.Controllers
         private readonly ILabResultService _labResultService;
         private readonly IPatientService _patientService;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly ValidateUserSession _validateUserSession;
         
 
 
-        public LabResultController(IAppoimentService userService, IHttpContextAccessor contextAccessor, ILabResultService labResultService, IPatientService patientService)
+        public LabResultController(IAppoimentService userService, IHttpContextAccessor contextAccessor, ILabResultService labResultService, IPatientService patientService, ValidateUserSession validateUserSession)
         {
            
             _httpContext = contextAccessor;
             _labResultService = labResultService;
+            _validateUserSession = validateUserSession;
         }
 
         public async Task<IActionResult> Index(string IdentificationNumber)
 
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
             UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
             var labResultViewModels = await _labResultService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId);
 
@@ -43,6 +51,12 @@ namespace MedSync.Presentation.Web.Controllers
 
         public async Task<IActionResult> ReportResult(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+
             SaveLabResultViewModel saveLabResultViewModel = await _labResultService.GetByIdSaveViewModel(id);
             return View(saveLabResultViewModel);
         }
@@ -50,6 +64,11 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ReportResult(SaveLabResultViewModel saveLabResultViewModel)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
 
             await _labResultService.ReportResult(saveLabResultViewModel);
             return RedirectToAction("Index");

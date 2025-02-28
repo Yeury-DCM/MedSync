@@ -2,6 +2,7 @@
 using MedSync.Core.Application.Interfaces.Services;
 using MedSync.Core.Application.ViewModels.Users;
 using MedSync.Core.Domain.Enums;
+using MedSync.Presentation.Web.Middelware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -11,15 +12,27 @@ namespace MedSync.Presentation.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAccountService _accountService;
+        private readonly ValidateUserSession _validateUserSession;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserViewModel _userViewModel;
 
 
-        public AccountController(IUserService userService, IDoctorOfficeService officeService, IAccountService accountService)
+        public AccountController(IUserService userService, IDoctorOfficeService officeService, IAccountService accountService, ValidateUserSession validateUserSession, IHttpContextAccessor contextAccessor)
         {
             _userService = userService;
             _accountService = accountService;
+            _validateUserSession = validateUserSession;
+            _httpContextAccessor = contextAccessor;
+            _userViewModel = _httpContextAccessor.HttpContext!.Session.Get<UserViewModel>("user")!;
         }
         public IActionResult Login()
         {
+            if (_validateUserSession.IsValidUser())
+            {
+                string controller = _userViewModel.UserType == UserType.Administrador ? "User" : "Patient";
+
+                return RedirectToRoute(new { controller = controller, action = "Index" });
+            }
             return View();
         }
 

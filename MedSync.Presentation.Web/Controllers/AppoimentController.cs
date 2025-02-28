@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MedSync.Core.Application.ViewModels.Appoiments;
 using MedSync.Core.Application.Interfaces.Repositories;
 using MedSync.Core.Domain.Entities;
+using MedSync.Presentation.Web.Middelware;
 namespace MedSync.Presentation.Web.Controllers
 {
     public class AppoimentController : Controller
@@ -17,10 +18,12 @@ namespace MedSync.Presentation.Web.Controllers
         private readonly IDoctorService _doctorService;
         private readonly IPatientService _patientService;
         private readonly IHttpContextAccessor _httpContext;
-        
+        private readonly ValidateUserSession _validateUserSession;
+        private readonly UserViewModel userViewModel;
 
 
-        public AppoimentController(IAppoimentService userService, IHttpContextAccessor contextAccessor, IDoctorService doctorService, IPatientService patientService, ILabTestService labTestService, ILabResultService labResultService)
+
+        public AppoimentController(IAppoimentService userService, IHttpContextAccessor contextAccessor, IDoctorService doctorService, IPatientService patientService, ILabTestService labTestService, ILabResultService labResultService, ValidateUserSession validateUserSession)
         {
             _appoimentService = userService;
             _httpContext = contextAccessor;
@@ -28,21 +31,31 @@ namespace MedSync.Presentation.Web.Controllers
             _patientService = patientService;
             _labTestService = labTestService;
             _labResultService = labResultService;
+            _validateUserSession = validateUserSession;
+            userViewModel = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
         }
 
         public async Task<IActionResult> Index()
 
         {
-            UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
+            if(!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
 
-            return View(await _appoimentService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
+            return View(await _appoimentService.GetAllByDoctorOfficeAsync(userViewModel.DoctorOfficeId));
         }
 
         public async Task <IActionResult> Add()
         {
-            UserViewModel user = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
-            ViewBag.Doctors = await _doctorService.GetAllByDoctorOfficeAsync(user.DoctorOfficeId);
-            ViewBag.Patients = await _patientService.GetAllByDoctorOfficeAsync(user.DoctorOfficeId);
+
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+            ViewBag.Doctors = await _doctorService.GetAllByDoctorOfficeAsync(userViewModel.DoctorOfficeId);
+            ViewBag.Patients = await _patientService.GetAllByDoctorOfficeAsync(userViewModel.DoctorOfficeId);
 
             return View("SaveAppoiment");
         }
@@ -50,6 +63,12 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(SaveAppoimentViewModel saveAppoiment)
         {
+
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
             ModelState.Remove("DoctorOfficeId");
             ModelState.Remove("LabTests");
             ModelState.Remove("LabTestIds");
@@ -58,13 +77,12 @@ namespace MedSync.Presentation.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                UserViewModel user = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
-                ViewBag.Doctors = await _doctorService.GetAllByDoctorOfficeAsync(user.DoctorOfficeId);
-                ViewBag.Patients = await _patientService.GetAllByDoctorOfficeAsync(user.DoctorOfficeId);
+                ViewBag.Doctors = await _doctorService.GetAllByDoctorOfficeAsync(userViewModel.DoctorOfficeId);
+                ViewBag.Patients = await _patientService.GetAllByDoctorOfficeAsync(userViewModel.DoctorOfficeId);
                 return View("saveAppoiment", saveAppoiment);
             }
 
-            saveAppoiment.DoctorOfficeId = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
+            saveAppoiment.DoctorOfficeId = userViewModel.DoctorOfficeId;
             await _appoimentService.Add(saveAppoiment);
 
             return RedirectToAction("Index");
@@ -72,9 +90,14 @@ namespace MedSync.Presentation.Web.Controllers
 
         public async Task<IActionResult> ConsultAppoiment(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
 
             SaveAppoimentViewModel saveAppoimentViewModel = await _appoimentService.GetByIdSaveViewModel(id);
-            int doctorOfficeId = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
+            int doctorOfficeId = userViewModel.DoctorOfficeId;
             ViewBag.LabTests = await _labTestService.GetAllByDoctorOfficeAsync(doctorOfficeId);
 
             return View(saveAppoimentViewModel);
@@ -83,7 +106,13 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ConsultAppoiment(SaveAppoimentViewModel saveAppoimentViewModel)
         {
-            int doctorOfficeId = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!.DoctorOfficeId;
+
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+            int doctorOfficeId = userViewModel.DoctorOfficeId;
 
             ModelState.Remove("LabTests");
             ModelState.Remove("Cause");
@@ -102,6 +131,12 @@ namespace MedSync.Presentation.Web.Controllers
 
         public async Task<IActionResult> ConsultResults(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+
             ViewBag.AppoimentId = id;
             return View(await _labResultService.GetAllByAppoimentId(id));
         }
@@ -110,6 +145,12 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FinishAppoiment(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+
+
+            }
             await _appoimentService.FinishAppoiment(id);
            return RedirectToAction("Index");
         }
@@ -119,7 +160,11 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(SaveAppoimentViewModel saveAppoiment)
         {
-      
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
             if (!ModelState.IsValid)
             {
 
@@ -133,6 +178,11 @@ namespace MedSync.Presentation.Web.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
             AppoimentViewModel? appoimentViewModel = await _appoimentService.GetById(id);
 
             return View("DeleteAppoiment", appoimentViewModel);
@@ -141,12 +191,22 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletePost(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
             await _appoimentService.Delete(id);
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> SeeResults(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
             return View(await _labResultService.GetAllByAppoimentId(id));
         }
     }

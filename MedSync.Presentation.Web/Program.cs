@@ -2,6 +2,7 @@
 using MedSync.Infraestructure.Persistence;
 using MedSync.Core.Application;
 using Microsoft.Extensions.DependencyInjection;
+using MedSync.Presentation.Web.Middelware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddApplicationLayer();
 builder.Services.AddSession();
+builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
 
 var app = builder.Build();
 

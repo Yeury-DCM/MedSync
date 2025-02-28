@@ -1,14 +1,10 @@
-﻿using MedSync.Core.Application.Interfaces.Repositories;
-using MedSync.Core.Application.Helpers;
-using MedSync.Core.Application.ViewModels.Users;
-using Microsoft.AspNetCore.Mvc;
+﻿using MedSync.Core.Application.Helpers;
 using MedSync.Core.Application.Interfaces.Services;
-using MedSync.Core.Application.ViewModels.DoctorOffices;
-using MedSync.Core.Application.ViewModels.Doctors;
-using MedSync.Core.Application.Services;
-using MedSync.Core.Domain.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using MedSync.Core.Application.ViewModels.Patients;
+using MedSync.Core.Application.ViewModels.Users;
+using MedSync.Core.Domain.Enums;
+using MedSync.Presentation.Web.Middelware;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MedSync.Presentation.Web.Controllers
 {
@@ -16,15 +12,24 @@ namespace MedSync.Presentation.Web.Controllers
     {
         private readonly IPatientService _patientService;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly ValidateUserSession _validateUserSession;
 
-        public PatientController(IPatientService patientService, IHttpContextAccessor httpContext)
+        public PatientController(IPatientService patientService, IHttpContextAccessor httpContext, ValidateUserSession validateUserSession)
         {
             _patientService = patientService;
             _httpContext = httpContext;
+            _validateUserSession = validateUserSession;
+
         }
 
         public async Task<IActionResult> Index()
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+
             UserViewModel userLogedIn = _httpContext.HttpContext!.Session.Get<UserViewModel>("user")!;
 
             return View(await _patientService.GetAllByDoctorOfficeAsync(userLogedIn.DoctorOfficeId));
@@ -32,12 +37,24 @@ namespace MedSync.Presentation.Web.Controllers
 
         public IActionResult Add()
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+
             return View("SavePatient");
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(SavePatientViewModel savePatientViewModel)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+
             ModelState.Remove("ImagePath");
             ModelState.Remove("DoctorOfficeId");
             ModelState.Remove("Id");
@@ -59,6 +76,11 @@ namespace MedSync.Presentation.Web.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
 
             SavePatientViewModel savePatientViewModel = await _patientService.GetByIdSaveViewModel(id);
 
@@ -68,6 +90,12 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(SavePatientViewModel savePatientViewModel)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+
             ModelState.Remove("File");
             ModelState.Remove("ImagePath");
 
@@ -90,6 +118,12 @@ namespace MedSync.Presentation.Web.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+
             PatientViewModel? patientViewModel = await _patientService.GetById(id);
 
             return View("DeletePatient", patientViewModel);
@@ -98,6 +132,11 @@ namespace MedSync.Presentation.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletePost(int id)
         {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
             await _patientService.Delete(id);
 
             //Get Directory Path
@@ -126,6 +165,7 @@ namespace MedSync.Presentation.Web.Controllers
 
         private string UploadFile(IFormFile file, int id, bool isEditMode = false, string imagePath = "")
         {
+
             if (isEditMode && file == null)
             {
                 return imagePath;
