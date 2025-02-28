@@ -79,5 +79,22 @@ namespace MedSync.Core.Application.Services
             throw new NotImplementedException();
         }
 
+        public async override Task<bool> Update(SaveUserViewModel viewModelToUpdate)
+        {
+            User? originalEntity = await _userRepository.GetByIdAsync(viewModelToUpdate.Id);
+
+            viewModelToUpdate.DoctorOfficeId = originalEntity!.DoctorOfficeId;
+
+            if (viewModelToUpdate.Password != null)
+            {
+                return await base.Update(viewModelToUpdate);
+            }
+
+
+            viewModelToUpdate.Password = originalEntity.Password;
+
+            return await base.Update(viewModelToUpdate);
+
+        }
     }   
 }

@@ -22,10 +22,8 @@
             <div class="col-3 mb-4">
                 <div class="card shadow-sm bg-light h-100 d-flex flex-column rounded-3">
 
-                    <div class="ratio ratio-4x3">
-
-                        <img class="w-100 h-100 object-fit-cover" src="@patient.ImagePath" alt="@patient.Name" />
-
+                    <div class="ratio ratio-4x3 d-flex align-items-center justify-content-center">
+                        <img class="w-100 h-auto rounded-top" src="@patient.ImagePath" alt="@patient.Name" style="max-height: 200px; object-fit: cover;" />
                     </div>
 
                     <div class="card-body">
@@ -38,7 +36,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                   
                             <div class="btn-group">
-                                <a asp-controller="Patient" asp-action="Edit" asp-route-id="@patient.Id" type="button" class="btn btn-sm btn-outline-info">Detalle</a>
+                                <a asp-controller="Patient" asp-action="Detail" asp-route-id="@patient.Id" type="button" class="btn btn-sm btn-outline-info">Detalle</a>
                                 <a asp-controller="Patient" asp-action="Edit" asp-route-id="@patient.Id" type="button" class="btn btn-sm btn-outline-warning"> Editar </a>
                                 <a asp-controller="Patient" asp-action="Delete" asp-route-id="@patient.Id" type="button" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </div>

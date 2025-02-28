@@ -23,6 +23,10 @@ namespace MedSync.Core.Application.ViewModels.Patients
         [Required(ErrorMessage = "Indique si tiene alergias.")]
         public bool HasAlergies { get; set; }
         public int DoctorOfficeId { get; set; } //FK
+
+        [Required(ErrorMessage = "Indique la fecha de nacimiento.")]
+        public DateTime BirthDate { get; set; }
+
         public string ImagePath { get; set; }
 
         [DataType(DataType.Upload)]

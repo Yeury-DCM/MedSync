@@ -85,7 +85,7 @@ namespace MedSync.Presentation.Web.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            if (!_validateUserSession.IsValidUser(UserType.Administrador))
+             if (!_validateUserSession.IsValidUser(UserType.Administrador))
             {
                 return RedirectToRoute(new { controller = "Account", action = "Login" });
             }

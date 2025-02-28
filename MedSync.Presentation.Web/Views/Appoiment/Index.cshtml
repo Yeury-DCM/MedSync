@@ -1,78 +1,63 @@
 ﻿@model List<MedSync.Core.Application.ViewModels.Appoiments.AppoimentViewModel>
 @using MedSync.Core.Application.ViewModels.Appoiments
 @using MedSync.Core.Domain.Enums
+
 @{
-    ViewData["Title"] = "Mantenimiento de pruebas de citas";
+    ViewData["Title"] = "Mantenimiento de Citas";
 }
 
 <div class="container-fluid px-0">
-
     <div class="d-flex justify-content-between align-items-center mb-3">
-
         <a asp-controller="Appoiment" asp-action="Add" class="btn btn-success"> Agendar nueva cita</a>
     </div>
 
     <div class="row">
-
         @if (Model == null || Model.Count == 0)
         {
             <h2 class="text-dark">No se encontraron citas</h2>
         }
         else
         {
-            <div class="card bg-light">
-                <table class="table table-hover table-light">
-                    <thead>
-                        <tr>
-                            <th scope="col">Paciente</th>
-                            <th scope="col">Médico</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Hora</th>
-                            <th scope="col">Motivo</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Acción</th>
+            @foreach (AppoimentViewModel appoiment in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm bg-light h-100 rounded-3">
 
-                        </tr>
-                    </thead>
-                    <tbody>
+                        <!-- Estado de la cita con colores -->
+                        <div class="card-header text-white text-center fw-bold rounded-top"
+                             style="background-color:
+                             @(appoiment.Status == Status.PendingConsultation ? "red" :
+                               appoiment.Status == Status.PendigResult ? "orange" : "green");">
+                            @appoiment.Status.GetDisplayName()
+                        </div>
 
-                        @foreach (AppoimentViewModel appoiment in Model)
-                        {
-                            <tr>
-                                <td>@appoiment.Patient.Name @appoiment.Patient.LastName</td>
-                                <td>@appoiment.Doctor.Name @appoiment.Doctor.LastName</td>
-                                <td>@appoiment.Date.ToShortDateString()</td>
-                                <td>@appoiment.Time</td>
-                                <td>@appoiment.Cause</td>
+                        <div class="card-body">
+                            <h5 class="card-title text-dark fw-bold">@appoiment.Patient.Name @appoiment.Patient.LastName</h5>
+                            <p class="text-secondary small mb-1"><strong>Médico: </strong> @appoiment.Doctor.Name @appoiment.Doctor.LastName</p>
+                            <p class="text-secondary small mb-1"><strong>Fecha: </strong> @appoiment.Date.ToShortDateString()</p>
+                            <p class="text-secondary small mb-1"><strong>Hora: </strong> @appoiment.Time</p>
+                            <p class="text-secondary small mb-1"><strong>Motivo: </strong> @appoiment.Cause</p>
 
-                                <td>@appoiment.Status.GetDisplayName()</td>                             
-                                <td>
-                                    <div class="btn-group btn-group-sm d-flex">
-                                        @if(appoiment.Status == Status.PendingConsultation)
-                                        {
-                                            <a asp-controller="Appoiment" asp-action="ConsultAppoiment" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar cita</a>
-                                        }
-                                        else if (appoiment.Status == Status.PendigResult)
-                                        {
-                                            <a asp-controller="Appoiment" asp-action="ConsultResults" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Consultar resultados </a>
-                                        }
-                                        else if (appoiment.Status == Status.Completed)
-                                        {
-                                            <a asp-controller="Appoiment" asp-action="SeeResults" asp-route-id="@appoiment.Id" type="button" class="btn btn-sm btn-outline-info">Ver resultados</a>
-                                        }
-                                    </div>
-                                </td>
-
-                            </tr>
-                        }
-
-                    </tbody>
-                </table>
-            </div>
-
-
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="btn-group">
+                                    @if (appoiment.Status == Status.PendingConsultation)
+                                    {
+                                        <a asp-controller="Appoiment" asp-action="ConsultAppoiment" asp-route-id="@appoiment.Id" class="btn btn-sm btn-outline-info">Consultar cita</a>
+                                    }
+                                    else if (appoiment.Status == Status.PendigResult)
+                                    {
+                                        <a asp-controller="Appoiment" asp-action="ConsultResults" asp-route-id="@appoiment.Id" class="btn btn-sm btn-outline-warning">Consultar resultados</a>
+                                    }
+                                    else if (appoiment.Status == Status.Completed)
+                                    {
+                                        <a asp-controller="Appoiment" asp-action="SeeResults" asp-route-id="@appoiment.Id" class="btn btn-sm btn-outline-success">Ver resultados</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         }
-
-
     </div>
 </div>

@@ -1,7 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using MedSync.Core.Application.Helpers;
 @using MedSync.Core.Application.ViewModels.Users;
+
 @using MedSync.Core.Domain.Enums;
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+
 @inject IHttpContextAccessor httpContext
 @{
     UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user")!;
@@ -18,71 +25,64 @@
 </head>
 <body class="d-flex flex-nowrap">
 
+
     @if (!IsSectionDefined("NoSidebar"))
     {
         <aside class="d-flex flex-column flex-shrink-0 p-3 bg-light border-end" style="width: 280px; min-height: 100vh;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
-                <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-                <span class="fs-4">Sidebar</span>
+                <img src="~/Images/Logo/isotipo.PNG" width="50px" height="50px"/>
+                <span class="fs-4 fw-bold text-info">  MedSync</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link active" aria-current="page">
-                        Home
-                    </a>
-                </li>
-
-                @if(user.UserType == UserType.Administrador)
+                @if (user.UserType == UserType.Administrador)
                 {
                     <li class="nav-item">
-                        <a asp-controller="User" asp-action="Index" class="nav-link" aria-current="page">
+                        <a asp-controller="User" asp-action="Index" class="text-dark nav-link @(currentController == "User" ? "active" : "")">
                             Usuarios
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a asp-controller="Doctor" asp-action="Index" class="nav-link" aria-current="page">
+                        <a asp-controller="Doctor" asp-action="Index" class="text-dark nav-link @(currentController == "Doctor" ? "active" : "")">
                             Doctores
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="LabTest" asp-action="Index" class="nav-link" aria-current="page">
+                        <a asp-controller="LabTest" asp-action="Index" class="text-dark nav-link @(currentController == "LabTest" ? "active" : "")">
                             Pruebas De Laboratorio
                         </a>
                     </li>
                 }
 
-                @if(user.UserType == UserType.Asistente)
+                @if (user.UserType == UserType.Asistente)
                 {
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Patient" asp-action="Index" class="nav-link" aria-current="page">
+                        <a asp-controller="Patient" asp-action="Index" class="text-dark nav-link @(currentController == "Patient" ? "active" : "")">
                             Pacientes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Appoiment" asp-action="Index" class="nav-link" aria-current="page">
+                        <a asp-controller="Appoiment" asp-action="Index" class="text-dark nav-link @(currentController == "Appoiment" ? "active" : "")">
                             Citas
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="LabResult" asp-action="Index" class="nav-link" aria-current="page">
+                        <a asp-controller="LabResult" asp-action="Index" class="text-dark nav-link @(currentController == "LabResult" ? "active" : "")">
                             Resultados de Laboratorio
                         </a>
                     </li>
                 }
-              
             </ul>
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong>mdo</strong>
+                    <strong>@user.Name (@user.UserType) </strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow">
-                    <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="LogOut">Cerrar Sesión</a></li>
                 </ul>
             </div>
@@ -103,7 +103,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container text-center">
-            &copy; 2025 - MedSync.Presentation.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - MedSync | Yeury De La Cruz 2023-1771 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

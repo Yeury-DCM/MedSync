@@ -25,6 +25,7 @@ namespace MedSync.Infraestructure.Persistence.Repositories
                  .Include(a => a.Doctor)
                  .Include(a => a.Patient)
                  .Include(a => a.LabTests)
+                 .OrderBy(a => a.Date)
                  .ToListAsync();
         }
 

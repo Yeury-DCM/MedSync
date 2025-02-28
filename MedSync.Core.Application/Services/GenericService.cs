@@ -57,7 +57,7 @@ namespace MedSync.Core.Application.Services
             return _mapper.Map<SaveViewModel>(entity);
         }
 
-        public async Task<bool> Update(SaveViewModel viewModel)
+        public virtual async Task<bool> Update(SaveViewModel viewModel)
         {
             Entity entity = await _repository.GetByIdAsync(viewModel.Id);
             entity = _mapper.Map(viewModel, entity);

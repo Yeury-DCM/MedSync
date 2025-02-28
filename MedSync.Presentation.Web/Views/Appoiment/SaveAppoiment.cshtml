@@ -60,31 +60,23 @@
 
 
                     <div class="row">
-
-                        <div class="col-md-6">
-                            <!-- Columna para la fecha -->
-                            <div class="col-md-3 mb-3">
-                                <label asp-for="Date"></label>
-                                <input asp-for="Date" type="date" class="form-control" />
-                                <span asp-validation-for="Date" class="text-danger"></span>
-                            </div>
-
-                            <!-- Columna para la hora -->
-                            <div class="col-md-3 mb-3">
-                                <label asp-for="Time" class="form-label">Hora</label>
-                                <input asp-for="Time" type="time" class="form-control" />
-                                <span asp-validation-for="Time" class="text-danger"></span>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Date" class="form-label">Fecha</label>
+                            <input asp-for="Date" type="date" class="form-control" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
 
-
-
-
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Time" class="form-label">Hora</label>
+                            <input asp-for="Time" type="time" class="form-control" />
+                            <span asp-validation-for="Time" class="text-danger"></span>
+                        </div>
                     </div>
+
 
                     <input type="hidden" asp-for="DoctorOfficeId" />
 
-                    <a asp-action="Index" asp-controller="LabTest" class="btn btn-warning">Volver</a>
+                    <a asp-action="Index" asp-controller="Appoiment" class="btn btn-warning">Volver</a>
                     <button type="submit" class="btn btn-success">Guardar</button>
                 </form>
             </div>

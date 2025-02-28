@@ -9,6 +9,7 @@ using MedSync.Core.Application.Services;
 using MedSync.Core.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MedSync.Presentation.Web.Middelware;
+using MedSync.Core.Application.ViewModels.Patients;
 
 namespace MedSync.Presentation.Web.Controllers
 {
@@ -36,6 +37,17 @@ namespace MedSync.Presentation.Web.Controllers
             }
 
             return View(await _doctorService.GetAllByDoctorOfficeAsync(_userViewModel.DoctorOfficeId));
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            if (!_validateUserSession.IsValidUser(UserType.Administrador))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+            DoctorViewModel? doctor = await _doctorService.GetById(id);
+            return View(doctor);
         }
 
         public IActionResult Add()

@@ -73,7 +73,7 @@ namespace MedSync.Presentation.Web.Controllers
             ModelState.Remove("LabTests");
             ModelState.Remove("LabTestIds");
             ModelState.Remove("Id");
-
+            
 
             if (!ModelState.IsValid)
             {

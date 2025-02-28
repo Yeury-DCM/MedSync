@@ -36,6 +36,18 @@ namespace MedSync.Presentation.Web.Controllers
             return View(await _patientService.GetAllByDoctorOfficeAsync(_userViewModel.DoctorOfficeId));
         }
 
+        public async Task<IActionResult> Detail(int id)
+        {
+            if (!_validateUserSession.IsValidUser(UserType.Asistente))
+            {
+                return RedirectToRoute(new { controller = "Account", action = "Login" });
+            }
+
+            PatientViewModel? patient = await _patientService.GetById(id);
+            return View(patient);
+        }
+
+
         public IActionResult Add()
         {
             if (!_validateUserSession.IsValidUser(UserType.Asistente))

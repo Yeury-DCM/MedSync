@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.nav-pills .nav-link.active {
+    background-color: #0dcaf0 !important;
+    color: white !important; 
+}

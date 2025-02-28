@@ -59,13 +59,23 @@
                         </div>
                     </div>
 
+                    <div class ="row">
+                        <div class="mb-3 col-md-6 ">
+
+                            <label asp-for="BirthDate">Fecha de Nacimiento</label>
+                            <input asp-for="BirthDate" type="date" class="form-control" />
+                            <span asp-validation-for="BirthDate" class="text-danger"></span>
+
+
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="mb-3 col-md-6 ">
                             <label asp-for="HasAlergies" class="form-label">¿Tiene alergias?</label>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" asp-for="HasAlergies" value="true">
-                                <label class="form-check-label" asp-for="IsSmoker" value ="true">
+                                <label class="form-check-label" asp-for="IsSmoker" value="true">
                                     Si
                                 </label>
                             </div>
@@ -96,8 +106,9 @@
                                     No
                                 </label>
                             </div>
-
                         </div>
+
+                  
                     </div>
 
                     <input type="hidden" asp-for="Id" />

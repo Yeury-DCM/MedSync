@@ -49,7 +49,12 @@ namespace MedSync.Presentation.Web.Controllers
             if (userVm != null)
             {
                 HttpContext.Session.Set<UserViewModel>("user", userVm);
-                return RedirectToRoute(new { controller = "Home", Action = "Index" });
+
+                if(userVm.UserType == UserType.Administrador)
+                    return RedirectToRoute(new { controller = "User", Action = "Index" });
+                else
+                    return RedirectToRoute(new { controller = "Patient", Action = "Index" });
+
             }
             else
             {

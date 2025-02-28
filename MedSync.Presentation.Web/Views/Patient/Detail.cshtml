@@ -1,0 +1,27 @@
+﻿@model MedSync.Core.Application.ViewModels.Patients.PatientViewModel
+
+@{
+    ViewData["Title"] = "Detalle del Paciente";
+}
+
+<div class="container mt-4">
+    <div class="card p-4">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="@Model.ImagePath" alt="Foto del Paciente" class="img-fluid " style="max-width: 250px;">
+            </div>
+            <div class="col-md-8">
+                <h2>@Model.Name @Model.LastName</h2>
+                <p><strong>Teléfono:</strong> @Model.PhoneNumber</p>
+                <p><strong>Cédula/Identificación:</strong> @Model.IdentificationNumber</p>
+                <p><strong>Dirección:</strong> @Model.Adress</p>
+                <p><strong>Fecha de Nacimiento:</strong> @Model.BirthDate.ToShortDateString()</p>
+                <p><strong>Fumador:</strong> @(Model.IsSmoker ? "Sí" : "No")</p>
+                <p><strong>Alergias:</strong> @(Model.HasAlergies ? "Sí" : "No")</p>
+            </div>
+        </div>
+    </div>
+
+  
+    <a asp-action="Index" asp-controller="Patient" class="btn btn-secondary mt-3">Volver</a>
+</div>
