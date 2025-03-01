@@ -83,6 +83,13 @@ namespace MedSync.Presentation.Web.Controllers
         {
 
 
+           
+            if(await _userService.Exists(saveUserViewModel.Username))
+            {
+                ModelState.AddModelError("RegisterError", "El nombre de usuario ya está en uso");
+      
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.UserTypes = Enum.GetValues(typeof(UserType))
@@ -96,6 +103,7 @@ namespace MedSync.Presentation.Web.Controllers
 
                 return View(saveUserViewModel);
             }
+
 
             await _userService.Add(saveUserViewModel);
             return RedirectToRoute(new {controller = "Account", action = "Login"});

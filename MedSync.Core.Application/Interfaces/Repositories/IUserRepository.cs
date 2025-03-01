@@ -7,5 +7,7 @@ namespace MedSync.Core.Application.Interfaces.Repositories
     public interface IUserRepository : IGenericRepository<User>
     {
         public Task<User> LoginAsync(LoginViewModel viewModel);
+
+        public Task<bool> Exists(string name);
     }
 }

@@ -5,6 +5,6 @@ namespace MedSync.Core.Application.Interfaces.Services
 {
     public interface IUserService : IGenericService<UserViewModel, SaveUserViewModel, User>, IGetAllByDoctorOffice<UserViewModel>   
     {
- 
+        Task<bool> Exists(string userName);
     }
 }

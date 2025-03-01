@@ -96,5 +96,10 @@ namespace MedSync.Core.Application.Services
             return await base.Update(viewModelToUpdate);
 
         }
+
+        public async Task<bool> Exists(string userName)
+        {
+            return await _userRepository.Exists(userName);
+        }
     }   
 }

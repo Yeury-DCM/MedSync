@@ -64,6 +64,10 @@ namespace MedSync.Infraestructure.Persistence.Repositories
             return true;  
         }
 
+        public Task<bool> Exists(string userName)
+        {
+            return _context.Users.AnyAsync(u => u.Username == userName);
+        }
 
         public Task<IEnumerable<Appoiment>> GetByDoctorOfficeAsync(int doctorOfficeId)
         {

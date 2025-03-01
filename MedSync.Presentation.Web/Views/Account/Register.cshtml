@@ -68,6 +68,8 @@
                                         </select>
                                     </div>
 
+                                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
                                     <div class="d-grid">
                                         <button type="submit" class="btn btn-info text-light btn-lg">
                                             Registrarse
