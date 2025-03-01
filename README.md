@@ -1,7 +1,7 @@
 # 🏥 MedSync (Sistema Gestor de Pacientes)
 
 ## 📌 Descripción
-Este sistema está diseñado para la **gestión integral de pacientes** en centros médicos, desarrollado con **ASP.NET Core MVC** bajo una **Onion Architecture** para garantizar modularidad, escalabilidad y mantenibilidad.  
+Este es un proyecto de práctica que está diseñado para la **gestión  de pacientes** en centros médicos, desarrollado con **ASP.NET Core MVC** bajo una **Onion Architecture** para garantizar modularidad, escalabilidad y mantenibilidad.  
 
 ### **Funcionalidades Principales:**  
 ✅ **Inicio y Registro de Sesión** – Autenticación y autorización (Utilizando las sesiones) segura con roles de usuario.  
